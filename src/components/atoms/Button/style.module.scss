@@ -1,0 +1,40 @@
+@import '@/style/variables.scss';
+
+.button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 16px 32px;
+  transition: $transition;
+  border-radius: 16px;
+
+  &_contained {
+    background-color: $violet;
+    color: $white;
+
+    &:hover {
+      background-color: $violet-dark;
+    }
+  }
+
+  &_text {
+    color: $secondary;
+
+    &:hover {
+      background-color: $violet-light;
+    }
+  }
+
+  &_outlined {
+    color: $secondary;
+    border: 1px solid $border-light;
+
+    &:hover {
+      background-color: $violet-light;
+    }
+  }
+
+  &_fullwidth {
+    width: 100%;
+  }
+}
