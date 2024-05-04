@@ -1,7 +1,13 @@
-import { ROUTER_PATHS } from '@/constants';
+import { Button } from '@/components/atoms';
 
 const MainPage = () => {
-  return <div>{ROUTER_PATHS.main}</div>;
+  return (
+    <>
+      <Button variant="contained">Кнопка</Button>
+      <Button variant="text">Кнопка</Button>
+      <Button variant="outlined">Кнопка</Button>
+    </>
+  );
 };
 
 export { MainPage };
