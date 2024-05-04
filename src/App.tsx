@@ -1,9 +1,9 @@
-import { MainPage } from './components/pages';
+import { Router } from './components';
 import './style/index.scss';
 import './style/fonts.scss';
 
 function App() {
-  return <MainPage />;
+  return <Router />;
 }
 
 export { App };
