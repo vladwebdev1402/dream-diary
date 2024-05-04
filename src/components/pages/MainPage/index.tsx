@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Button, Input, Modal } from '@/components/atoms';
+import { Button, Input, Modal, Typography } from '@/components/atoms';
 
 const MainPage = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,6 +30,18 @@ const MainPage = () => {
       >
         asdads
       </Modal>
+      <Typography variant="h2" component="h2">
+        h2
+      </Typography>
+      <Typography variant="h3" component="h3">
+        h3
+      </Typography>
+      <Typography variant="paragraph_16" component="p">
+        p16
+      </Typography>
+      <Typography variant="paragraph_14" component="span">
+        p14
+      </Typography>
     </>
   );
 };
