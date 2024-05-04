@@ -2,4 +2,4 @@ const ROUTER_PATHS = {
   main: '/',
 };
 
-export {ROUTER_PATHS};
+export { ROUTER_PATHS };
