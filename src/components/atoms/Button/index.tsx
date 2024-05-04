@@ -25,7 +25,7 @@ const Button: FC<Props> = ({
       })}
       {...props}
     >
-      <Typography>{children}</Typography>
+      <Typography fontWeight="semibold">{children}</Typography>
     </button>
   );
 };
