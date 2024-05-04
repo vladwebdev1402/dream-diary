@@ -11,7 +11,7 @@ type Props = {
 };
 
 const Typography: FC<Props> = ({
-  variant = 'paragraph',
+  variant = 'paragraph_16',
   component = 'div',
   fontWeight = '',
   children,

@@ -2,6 +2,7 @@ import { ComponentPropsWithRef, FC } from 'react';
 import clsx from 'clsx';
 
 import style from './style.module.scss';
+import { Typography } from '../Typography';
 
 type Props = {
   label: string;
@@ -12,14 +13,14 @@ type Props = {
 const Input: FC<Props> = ({ label, error = '', hint = '', ...props }) => {
   return (
     <div>
-      <div className={style.label}>{label}</div>
+      <Typography variant="paragraph_14">{label}</Typography>
       <input
         className={clsx(style.input, { [style.input_error]: !!error })}
         {...props}
       />
       {(error || hint) && (
         <div className={clsx(style.hint, { [style.hint_error]: !!error })}>
-          {error ? error : hint}
+          <Typography variant="paragraph_14">{error ? error : hint}</Typography>
         </div>
       )}
     </div>

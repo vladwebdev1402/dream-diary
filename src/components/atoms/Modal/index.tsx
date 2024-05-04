@@ -2,6 +2,7 @@ import { FC, MouseEvent, ReactNode } from 'react';
 import clsx from 'clsx';
 
 import style from './style.module.scss';
+import { Typography } from '../Typography';
 
 type Props = {
   title: string;
@@ -21,7 +22,8 @@ const Modal: FC<Props> = ({ title, isOpen, onClose, children }) => {
         onClick={(e: MouseEvent<HTMLDivElement>) => e.stopPropagation()}
       >
         <div className={style.head}>
-          {title} <button className={style.close} onClick={onClose} />
+          <Typography variant="h3">{title}</Typography>
+          <button className={style.close} onClick={onClose} />
         </div>
         <div className={style.body}>{children}</div>
       </div>

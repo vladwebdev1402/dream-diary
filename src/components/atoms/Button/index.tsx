@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import { ComponentPropsWithRef, FC } from 'react';
 
 import style from './style.module.scss';
+import { Typography } from '../Typography';
 
 type Props = {
   variant?: 'contained' | 'text' | 'outlined';
@@ -24,7 +25,7 @@ const Button: FC<Props> = ({
       })}
       {...props}
     >
-      {children}
+      <Typography>{children}</Typography>
     </button>
   );
 };

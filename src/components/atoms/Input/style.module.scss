@@ -1,10 +1,5 @@
 @import '@/style/variables.scss';
 
-.label {
-  font-size: 14px;
-  line-height: 20px;
-}
-
 .input {
   padding: 12px 8px 12px 12px;
   border: 1px solid $border-medium;
@@ -33,8 +28,6 @@
 }
 
 .hint {
-  font-size: 14px;
-  line-height: 20px;
   color: $tertiary;
   margin-top: 4px;
   
