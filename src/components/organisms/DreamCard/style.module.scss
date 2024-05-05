@@ -1,0 +1,43 @@
+@import '@/style/variables.scss';
+
+.body {
+  margin-top: 8px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.cover {
+  width: 176px;
+  height: 176px;
+  overflow: hidden;
+  border-radius: 16px;
+  flex: 0 0 176px;
+
+  img {
+    max-width: 100%;
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.description {
+  -webkit-line-clamp: 7;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: clip;
+}
+
+.characters {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.link {
+  text-decoration: none;
+  color: $primary;
+}
