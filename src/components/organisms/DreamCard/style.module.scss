@@ -41,3 +41,13 @@
   text-decoration: none;
   color: $primary;
 }
+
+@media (max-width: 500px) {
+  .body {
+    flex-direction: column;
+  }
+
+  .cover {
+    width: 100%;
+  }
+}
