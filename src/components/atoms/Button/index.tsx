@@ -6,11 +6,13 @@ import { Typography } from '../Typography';
 
 type Props = {
   variant?: 'contained' | 'text' | 'outlined';
+  size?: 'small' | 'big';
   fullwidth?: boolean;
 } & ComponentPropsWithRef<'button'>;
 
 const Button: FC<Props> = ({
   variant = 'contained',
+  size = 'big',
   fullwidth = false,
   children,
   ...props
@@ -22,6 +24,8 @@ const Button: FC<Props> = ({
         [style.button_outlined]: variant === 'outlined',
         [style.button_text]: variant === 'text',
         [style.button_fullwidth]: fullwidth,
+        [style.button_big]: size === 'big',
+        [style.button_small]: size === 'small',
       })}
       {...props}
     >

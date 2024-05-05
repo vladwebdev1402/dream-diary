@@ -4,7 +4,6 @@
   border: none;
   background-color: transparent;
   cursor: pointer;
-  padding: 16px 32px;
   transition: $transition;
   border-radius: 16px;
 
@@ -36,5 +35,13 @@
 
   &_fullwidth {
     width: 100%;
+  }
+
+  &_big {
+    padding: 16px 32px;
+  }
+
+  &_small {
+    padding: 8px 12px;
   }
 }
