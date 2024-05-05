@@ -1,22 +1,21 @@
-import { Button, Container, Typography } from '@/components/atoms';
-import { CharacterList } from '@/components/organisms';
+import { useNavigate } from 'react-router-dom';
 
-import style from './style.module.scss';
+import { Container, PageTemplate } from '@/components/atoms';
+import { CharacterList } from '@/components/organisms';
+import { ROUTER_PATHS } from '@/constants';
 
 const CaharctersPage = () => {
+  const navigate = useNavigate();
+
   return (
     <Container>
-      <div className={style.head}>
-        <Typography component="h2" variant="h2">
-          Ваши персонажи
-        </Typography>
-        <Button variant="outlined" size="small">
-          Создать персонажа
-        </Button>
-      </div>
-      <div className={style.body}>
+      <PageTemplate
+        title="Ваши персонажи"
+        buttonText="Создать персонажа"
+        onClick={() => navigate(ROUTER_PATHS.characterCreate)}
+      >
         <CharacterList />
-      </div>
+      </PageTemplate>
     </Container>
   );
 };

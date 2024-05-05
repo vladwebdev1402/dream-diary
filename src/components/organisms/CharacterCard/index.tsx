@@ -2,9 +2,10 @@ import { Link } from 'react-router-dom';
 import { FC } from 'react';
 
 import { Character } from '@/types';
+import { Typography } from '@/components/atoms';
+import { getNavigateRoute } from '@/constants';
 
 import style from './style.module.scss';
-import { Typography } from '@/components/atoms';
 
 type Props = {
   character: Character;
@@ -12,7 +13,10 @@ type Props = {
 
 const CharacterCard: FC<Props> = ({ character }) => {
   return (
-    <Link to={'/change-me'} className={style.card}>
+    <Link
+      to={getNavigateRoute.goCharacter(character.id)}
+      className={style.card}
+    >
       <div className={style.avatar}>
         <img src={character.avatarUrl} alt="Аватар" />
       </div>
