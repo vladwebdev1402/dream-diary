@@ -9,8 +9,10 @@
   width: 100%;
   line-height: 24px;
   color: $primary;
-  font-size: 16px;  
-
+  font-size: 16px;
+  font-family: 'Inter';
+  resize: none;
+  height: auto;
   &::placeholder {
     line-height: 24px;
     color: $tertiary;
@@ -30,8 +32,12 @@
 .hint {
   color: $tertiary;
   margin-top: 4px;
-  
+
   &_error {
     color: $error;
   }
+}
+
+.textarea {
+  height: 150px;
 }
