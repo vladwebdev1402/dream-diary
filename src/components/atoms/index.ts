@@ -4,3 +4,4 @@ export * from './Input';
 export * from './Typography';
 export * from './Container';
 export * from './HeaderLink';
+export * from './CharacterAvatar';
