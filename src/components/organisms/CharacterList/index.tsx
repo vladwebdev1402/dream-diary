@@ -1,10 +1,36 @@
-import { StoreSelectors, useAppSelector } from '@/store';
+import { useEffect } from 'react';
+
+import {
+  StoreActions,
+  StoreSelectors,
+  useAppDispatch,
+  useAppSelector,
+} from '@/store';
+import { myUID } from '@/constants';
 
 import style from './style.module.scss';
 import { CharacterCard } from '../CharacterCard';
+import { CharacterListSkeleton } from './CharacterListSkeleton';
+import { ErrorMessage } from '@/components/atoms';
 
 const CharacterList = () => {
-  const data = useAppSelector(StoreSelectors.characterList.selectData);
+  const dispatch = useAppDispatch();
+  const { data, isLoading, error } = useAppSelector(
+    StoreSelectors.characterList.selectAll,
+  );
+
+  useEffect(() => {
+    dispatch(StoreActions.characterList.getAllCharacters(myUID));
+  }, []);
+
+  if (error !== '')
+    return (
+      <div className={style.error}>
+        <ErrorMessage title="Произошла ошибка" description={error} />
+      </div>
+    );
+
+  if (isLoading) return <CharacterListSkeleton />;
 
   return (
     <div className={style.list}>

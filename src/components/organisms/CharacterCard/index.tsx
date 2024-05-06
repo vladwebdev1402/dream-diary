@@ -4,8 +4,10 @@ import { FC } from 'react';
 import { Character } from '@/types';
 import { Typography } from '@/components/atoms';
 import { getNavigateRoute } from '@/constants';
+import Stub from '@/assets/images/avatar-stub.png';
 
 import style from './style.module.scss';
+import { CharacterCardSkeleton } from './CharacterCardSkeleton';
 
 type Props = {
   character: Character;
@@ -18,7 +20,7 @@ const CharacterCard: FC<Props> = ({ character }) => {
       className={style.card}
     >
       <div className={style.avatar}>
-        <img src={character.avatarUrl} alt="Аватар" />
+        <img src={character.avatarUrl || Stub} alt="Аватар" />
       </div>
       <div className={style.name}>
         <Typography variant="h3">{character.name}</Typography>
@@ -27,4 +29,4 @@ const CharacterCard: FC<Props> = ({ character }) => {
   );
 };
 
-export { CharacterCard };
+export { CharacterCard, CharacterCardSkeleton };
