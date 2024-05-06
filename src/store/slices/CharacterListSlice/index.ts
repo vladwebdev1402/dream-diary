@@ -4,7 +4,7 @@ import { CharacterFormData } from '@/components';
 import { Character } from '@/types';
 import { RootState } from '@/store';
 
-import { getAllCharacters } from './actionCreators';
+import { createCharacter, getAllCharacters } from './actionCreators';
 
 type InitialState = {
   isLoading: boolean;
@@ -38,10 +38,23 @@ const CharacterListSlice = createSlice({
     builder.addCase(getAllCharacters.rejected, (state, action) => {
       state.isLoading = false;
       state.error =
-       action.payload === 'string'
-          ? action.payload
-          : 'Неизвестная ошибка';
+        action.payload === 'string' ? action.payload : 'Неизвестная ошибка';
     });
+
+    builder.addCase(createCharacter.pending, (state) => {
+      state.isLoading = true;
+      state.error = '';
+    });
+    builder.addCase(createCharacter.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.data.push(action.payload);
+    });
+    builder.addCase(createCharacter.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error =
+        action.payload === 'string' ? action.payload : 'Неизвестная ошибка';
+    });
+    
   },
 });
 
@@ -49,11 +62,13 @@ const characterListReducer = CharacterListSlice.reducer;
 const characterListActions = {
   ...CharacterListSlice.actions,
   getAllCharacters,
+  createCharacter,
 };
 
 const characterListSelectors = {
   selectData: (state: RootState) => state.characterListReducer.data,
   selectAll: (state: RootState) => state.characterListReducer,
+  selectIsLoading: (state: RootState) => state.characterListReducer.isLoading,
 };
 
 export { characterListActions, characterListReducer, characterListSelectors };

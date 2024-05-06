@@ -5,4 +5,9 @@ type Character = {
   avatarUrl?: string;
 };
 
-export type { Character };
+type CharacterFormData = Pick<Character, 'name' | 'description' | 'avatarUrl'>;
+type CharacterFormErrors = Partial<
+  Pick<Character, 'name' | 'description'>
+> | null;
+
+export type { Character, CharacterFormData, CharacterFormErrors };

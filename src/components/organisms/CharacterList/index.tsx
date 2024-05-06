@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 
+import { ErrorMessage } from '@/components/atoms';
 import {
   StoreActions,
   StoreSelectors,
@@ -11,7 +12,6 @@ import { myUID } from '@/constants';
 import style from './style.module.scss';
 import { CharacterCard } from '../CharacterCard';
 import { CharacterListSkeleton } from './CharacterListSkeleton';
-import { ErrorMessage } from '@/components/atoms';
 
 const CharacterList = () => {
   const dispatch = useAppDispatch();

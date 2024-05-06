@@ -5,16 +5,17 @@ import { Button, Input, Textarea } from '@/components/atoms';
 import { ROUTER_PATHS } from '@/constants';
 
 import style from './style.module.scss';
-import { Character } from '@/types';
-import { CharacterFormData, CharacterFormErrors } from './type';
+import { Character, CharacterFormData, CharacterFormErrors } from '@/types';
 
 type Props = {
   defaultValue?: Pick<Character, 'name' | 'description'>;
+  isLoading?: boolean;
   onSuccessSubmit?(data: CharacterFormData): void;
 };
 
 const CharacterForm: FC<Props> = ({
   defaultValue = { name: '', description: '' },
+  isLoading = false,
   onSuccessSubmit = () => {},
 }) => {
   const [formData, setFormData] = useState<CharacterFormData>(defaultValue);
@@ -67,7 +68,7 @@ const CharacterForm: FC<Props> = ({
         />
       </div>
       <div className={style.buttons}>
-        <Button type="submit" fullwidth>
+        <Button type="submit" fullwidth isLoading={isLoading}>
           Создать
         </Button>
         <Button

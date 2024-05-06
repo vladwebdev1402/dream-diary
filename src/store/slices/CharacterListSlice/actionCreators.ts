@@ -1,8 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDocs, query, where, addDoc } from 'firebase/firestore';
 
 import { CharacterScheme } from '@/schemes';
 import { firebaseDb } from '@/api';
+import { CharacterFormData } from '@/types';
 
 const getAllCharacters = createAsyncThunk(
   'charactersList/get',
@@ -30,4 +31,30 @@ const getAllCharacters = createAsyncThunk(
   },
 );
 
-export { getAllCharacters };
+const createCharacter = createAsyncThunk(
+  'charactersList/post',
+  async (character: { userUid: string } & CharacterFormData, thunkAPI) => {
+    try {
+      const data = await addDoc(
+        collection(firebaseDb, 'characters'),
+        character,
+      );
+      const parseResult = CharacterScheme.safeParse({
+        id: data.id,
+        ...character,
+      });
+      if (!parseResult.success)
+        return thunkAPI.rejectWithValue(
+          'Произошла ошибка при создании персонажа',
+        );
+
+      return parseResult.data;
+    } catch (e) {
+      if (e instanceof Error) return thunkAPI.rejectWithValue(e.message);
+      else if (typeof e === 'string') return thunkAPI.rejectWithValue(e);
+      return thunkAPI.rejectWithValue('Произошла неизвестная ошибка');
+    }
+  },
+);
+
+export { getAllCharacters, createCharacter };
