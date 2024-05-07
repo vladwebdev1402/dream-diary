@@ -44,6 +44,15 @@
   &_small {
     padding: 8px 12px;
   }
+
+  &_delete {
+    background-color: $error;
+    color: $white;
+
+    &:hover {
+      background-color: $error-dark;
+    }
+  }
 }
 
 .loader {

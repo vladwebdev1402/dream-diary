@@ -1,27 +1,27 @@
 import { ChangeEvent, FC, FormEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import { Button, Input, Textarea } from '@/components/atoms';
-import { ROUTER_PATHS } from '@/constants';
 
 import style from './style.module.scss';
 import { Character, CharacterFormData, CharacterFormErrors } from '@/types';
 
 type Props = {
   defaultValue?: Pick<Character, 'name' | 'description'>;
+  formType: 'create' | 'edit';
   isLoading?: boolean;
+  onCancel(): void;
   onSuccessSubmit?(data: CharacterFormData): void;
 };
 
 const CharacterForm: FC<Props> = ({
   defaultValue = { name: '', description: '' },
+  formType,
   isLoading = false,
+  onCancel,
   onSuccessSubmit = () => {},
 }) => {
   const [formData, setFormData] = useState<CharacterFormData>(defaultValue);
   const [errors, setErrors] = useState<CharacterFormErrors>(null);
-
-  const navigate = useNavigate();
 
   const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -35,10 +35,6 @@ const CharacterForm: FC<Props> = ({
       setErrors(null);
       onSuccessSubmit(formData);
     }
-  };
-
-  const onCancelClick = () => {
-    navigate(ROUTER_PATHS.characters);
   };
 
   const onNameChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -69,14 +65,9 @@ const CharacterForm: FC<Props> = ({
       </div>
       <div className={style.buttons}>
         <Button type="submit" fullwidth isLoading={isLoading}>
-          Создать
+          {formType === 'create' ? 'Создать' : 'Редактировать'}
         </Button>
-        <Button
-          variant="outlined"
-          type="button"
-          onClick={onCancelClick}
-          fullwidth
-        >
+        <Button variant="outlined" type="button" onClick={onCancel} fullwidth>
           Вернуться назад
         </Button>
       </div>

@@ -3,16 +3,18 @@ import { createSlice } from '@reduxjs/toolkit';
 import { Character } from '@/types';
 import { RootState } from '@/store';
 
-import { getCharacter } from './actionCreators';
+import { deleteCharacter, editCharacter, getCharacter } from './actionCreators';
 
 type InitialState = {
   isLoading: boolean;
+  isActionLoading: boolean;
   error: string;
   data: Character | null;
 };
 
 const initialState: InitialState = {
   isLoading: false,
+  isActionLoading: false,
   error: '',
   data: null,
 };
@@ -35,6 +37,34 @@ const CharacterSlice = createSlice({
       state.error =
         action.payload === 'string' ? action.payload : 'Неизвестная ошибка';
     });
+
+    builder.addCase(deleteCharacter.pending, (state) => {
+      state.isActionLoading = true;
+      state.error = '';
+    });
+    builder.addCase(deleteCharacter.fulfilled, (state) => {
+      state.isActionLoading = false;
+      state.data = null;
+    });
+    builder.addCase(deleteCharacter.rejected, (state, action) => {
+      state.isActionLoading = false;
+      state.error =
+        action.payload === 'string' ? action.payload : 'Неизвестная ошибка';
+    });
+
+    builder.addCase(editCharacter.pending, (state) => {
+      state.isActionLoading = true;
+      state.error = '';
+    });
+    builder.addCase(editCharacter.fulfilled, (state, action) => {
+      state.isActionLoading = false;
+      state.data = action.payload;
+    });
+    builder.addCase(editCharacter.rejected, (state, action) => {
+      state.isActionLoading = false;
+      state.error =
+        action.payload === 'string' ? action.payload : 'Неизвестная ошибка';
+    });
   },
 });
 
@@ -42,12 +72,15 @@ const characterSliceReducer = CharacterSlice.reducer;
 const characterSlicetActions = {
   ...CharacterSlice.actions,
   getCharacter,
+  deleteCharacter,
+  editCharacter,
 };
 
 const characterSliceSelectors = {
   selectData: (state: RootState) => state.characterSliceReducer.data,
   selectAll: (state: RootState) => state.characterSliceReducer,
   selectIsLoading: (state: RootState) => state.characterSliceReducer.isLoading,
+  selectIsActionLoading: (state: RootState) => state.characterSliceReducer.isActionLoading,
 };
 
 export {
