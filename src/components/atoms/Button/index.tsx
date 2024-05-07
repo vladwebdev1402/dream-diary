@@ -7,13 +7,17 @@ import { Typography } from '../Typography';
 type Props = {
   variant?: 'contained' | 'text' | 'outlined';
   size?: 'small' | 'big';
+  colorTheme?: 'delete';
   fullwidth?: boolean;
+  isLoading?: boolean;
 } & ComponentPropsWithRef<'button'>;
 
 const Button: FC<Props> = ({
   variant = 'contained',
   size = 'big',
+  colorTheme = '',
   fullwidth = false,
+  isLoading = false,
   children,
   ...props
 }) => {
@@ -26,10 +30,14 @@ const Button: FC<Props> = ({
         [style.button_fullwidth]: fullwidth,
         [style.button_big]: size === 'big',
         [style.button_small]: size === 'small',
+        [style.button_delete]: colorTheme === 'delete',
+        [style.button_loading]: isLoading,
       })}
       {...props}
+      disabled={isLoading || props.disabled}
     >
-      <Typography fontWeight="semibold">{children}</Typography>
+      {!isLoading && <Typography fontWeight="semibold">{children}</Typography>}
+      {isLoading && <div className={style.loader} />}
     </button>
   );
 };

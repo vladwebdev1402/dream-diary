@@ -1,23 +1,40 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
+
 import {
   dreamListActions,
   dreamListReducer,
   dreamListSelectors,
-} from './reducers/DreamListSlice';
+} from './slices/DreamListSlice';
+import {
+  characterListActions,
+  characterListReducer,
+  characterListSelectors,
+} from './slices/CharacterListSlice';
+import {
+  characterSliceReducer,
+  characterSliceSelectors,
+  characterSlicetActions,
+} from './slices/CharacterSlice';
 
 const store = configureStore({
   reducer: {
     dreamListReducer,
+    characterListReducer,
+    characterSliceReducer,
   },
 });
 
 const StoreActions = {
   dreamList: dreamListActions,
+  characterList: characterListActions,
+  character: characterSlicetActions,
 };
 
 const StoreSelectors = {
   dreamList: dreamListSelectors,
+  characterList: characterListSelectors,
+  character: characterSliceSelectors,
 };
 
 type RootState = ReturnType<typeof store.getState>;

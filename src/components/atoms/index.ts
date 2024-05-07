@@ -5,3 +5,6 @@ export * from './Typography';
 export * from './Container';
 export * from './HeaderLink';
 export * from './CharacterAvatar';
+export * from './PageTemplate';
+export * from './Skeleton';
+export * from './ErrorMessage';

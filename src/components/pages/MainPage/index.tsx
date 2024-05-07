@@ -1,21 +1,11 @@
-import { Button, Container, DreamList, Typography } from '@/components';
-
-import style from './style.module.scss';
+import { Container, DreamList, PageTemplate } from '@/components';
 
 const MainPage = () => {
   return (
     <Container>
-      <div className={style.head}>
-        <Typography variant="h2" component="h2">
-          Ваши сны
-        </Typography>
-        <Button variant="outlined" size="small">
-          Создать сон
-        </Button>
-      </div>
-      <div className={style.body}>
+      <PageTemplate title="Ваши сны" buttonText="Создать сон">
         <DreamList />
-      </div>
+      </PageTemplate>
     </Container>
   );
 };

@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import { Character } from '@/types';
+import Stub from '@/assets/images/avatar-stub.png';
 
 import style from './style.module.scss';
 import { Typography } from '@/components/atoms';
@@ -19,7 +20,7 @@ const CharacterAvatar: FC<Props> = ({
   return (
     <div className={style.character}>
       <div className={style.avatar}>
-        <img src={character.avatarUrl} />
+        <img src={character.avatarUrl || Stub} />
       </div>
       {withName && (
         <div className={style.name}>
