@@ -9,24 +9,32 @@ import {
 import {
   characterListActions,
   characterListReducer,
-  characterListSelectors
+  characterListSelectors,
 } from './slices/CharacterListSlice';
+import {
+  characterSliceReducer,
+  characterSliceSelectors,
+  characterSlicetActions,
+} from './slices/CharacterSlice';
 
 const store = configureStore({
   reducer: {
     dreamListReducer,
     characterListReducer,
+    characterSliceReducer,
   },
 });
 
 const StoreActions = {
   dreamList: dreamListActions,
-  characterList: characterListActions
+  characterList: characterListActions,
+  character: characterSlicetActions,
 };
 
 const StoreSelectors = {
   dreamList: dreamListSelectors,
-  characterList: characterListSelectors
+  characterList: characterListSelectors,
+  character: characterSliceSelectors,
 };
 
 type RootState = ReturnType<typeof store.getState>;

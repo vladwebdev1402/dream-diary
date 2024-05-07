@@ -9,6 +9,7 @@ import { ROUTER_PATHS } from '@/constants';
 import {
   CaharctersPage,
   CharacterCreatePage,
+  CharacterPage,
   Layout,
   MainPage,
 } from '@/components/pages';
@@ -17,6 +18,7 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<Layout />}>
       <Route path={ROUTER_PATHS.main} element={<MainPage />} />
+      <Route path={ROUTER_PATHS.character} element={<CharacterPage />} />
       <Route path={ROUTER_PATHS.characters} element={<CaharctersPage />} />
       <Route
         path={ROUTER_PATHS.characterCreate}

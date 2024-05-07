@@ -15,11 +15,6 @@ const CharacterListSkeleton = () => {
       <CharacterCardSkeleton />
       <CharacterCardSkeleton />
       <CharacterCardSkeleton />
-      <CharacterCardSkeleton />
-      <CharacterCardSkeleton />
-      <CharacterCardSkeleton />
-      <CharacterCardSkeleton />
-      <CharacterCardSkeleton />
     </div>
   );
 };

@@ -8,6 +8,14 @@
   user-select: none;
   color: rgba(#000000, 0);
 
+  &_rounded {
+    border-radius: 50%;
+  }
+
+  &_inline {
+    display: inline-block;
+  }
+
   &::after {
     content: '';
     position: absolute;
