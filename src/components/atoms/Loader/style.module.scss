@@ -1,0 +1,19 @@
+@import '@/style/variables.scss';
+
+.loader {
+  border-radius: 50%;
+  border-left: 2px solid $white;
+  border-top: 2px solid $white;
+  animation: loading 0.8s linear 0s infinite;
+  display: inline-flex;
+}
+
+@keyframes loading {
+  0% {
+    rotate: 0deg;
+  }
+
+  100% {
+    rotate: 360deg;
+  }
+}

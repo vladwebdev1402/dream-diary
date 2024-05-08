@@ -6,9 +6,11 @@ import CrossSVG from '@/assets/decoration/cross.svg?react';
 
 import style from './style.module.scss';
 import { LabelSkeleton } from './LabelSkeleton';
+import { Loader } from '../Loader';
 
 type Props = {
   theme: LabelTheme;
+  isLoading?: boolean;
   children: ReactNode;
   onDelete?(): void;
   onClick?(): void;
@@ -16,6 +18,7 @@ type Props = {
 
 const Label: FC<Props> = ({
   theme,
+  isLoading = false,
   children,
   onDelete,
   onClick = () => {},
@@ -41,7 +44,11 @@ const Label: FC<Props> = ({
       </button>
       {onDelete && (
         <button className={style.delete} onClick={onDeleteClick}>
-          <CrossSVG className={style.icon} />
+          {isLoading ? (
+            <Loader size={10} />
+          ) : (
+            <CrossSVG className={style.icon} />
+          )}
         </button>
       )}
     </div>

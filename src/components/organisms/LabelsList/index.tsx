@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   StoreActions,
@@ -7,16 +7,46 @@ import {
   useAppSelector,
 } from '@/store';
 import { myUID } from '@/constants';
+import { ErrorMessage, Modal } from '@/components/atoms';
+import { LabelCard } from '@/components/molecules';
+import { Label, LabelFormData } from '@/types';
 
 import style from './style.module.scss';
 import { LabelListSkeleton } from './LabelListSkeleton';
-import { ErrorMessage, Label } from '@/components/atoms';
+import { LabelForm } from '../LabelForm';
 
 const LabelsList = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentLabel, setCurrentLabel] = useState<null | Label>(null);
   const dispatch = useAppDispatch();
+  const isActionLoading = useAppSelector(
+    StoreSelectors.labelsList.selectIsActionLoading,
+  );
   const { data, isLoading, error } = useAppSelector(
     StoreSelectors.labelsList.selectAll,
   );
+
+  const onClose = () => {
+    setIsOpen(false);
+    setTimeout(() => setCurrentLabel(null), 350);
+  };
+  const onOpen = () => setIsOpen(true);
+
+  const onSelectLabel = (label: Label) => {
+    setCurrentLabel(label);
+    onOpen();
+  };
+
+  const onSuccessSubmit = (label: LabelFormData) => {
+    dispatch(
+      StoreActions.labelsList.editLabel({
+        data: label,
+        id: currentLabel!.id,
+        userUid: myUID,
+      }),
+    );
+    onClose();
+  };
 
   useEffect(() => {
     dispatch(StoreActions.labelsList.getAllLabels(myUID));
@@ -38,10 +68,22 @@ const LabelsList = () => {
   return (
     <div className={style.list}>
       {data.map((item) => (
-        <Label theme={item.theme} key={item.id} onDelete={() => {}}>
-          {item.name}
-        </Label>
+        <LabelCard key={item.id} label={item} onSelectLabel={onSelectLabel} />
       ))}
+      <Modal title="Редактирование тега" isOpen={isOpen} onClose={onClose}>
+        {currentLabel && (
+          <LabelForm
+            formType="edit"
+            defaultValue={{
+              name: currentLabel.name,
+              theme: currentLabel.theme,
+            }}
+            onCancel={onClose}
+            isLoading={isActionLoading}
+            onSuccessSubmit={onSuccessSubmit}
+          />
+        )}
+      </Modal>
     </div>
   );
 };

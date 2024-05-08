@@ -2,7 +2,12 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { Label } from '@/types';
 import { RootState } from '@/store';
-import { createLabel, getAllLabels } from './actionCreators';
+import {
+  createLabel,
+  deleteLabel,
+  editLabel,
+  getAllLabels,
+} from './actionCreators';
 
 type InitialState = {
   isLoading: boolean;
@@ -48,6 +53,35 @@ const LabelListSlice = createSlice({
       state.isActionLoading = false;
       state.error = action.error.message || 'Неизвестная ошибка';
     });
+
+    builder.addCase(deleteLabel.pending, (state) => {
+      state.isActionLoading = true;
+      state.error = '';
+    });
+    builder.addCase(deleteLabel.fulfilled, (state, action) => {
+      state.isActionLoading = false;
+      state.data = state.data.filter((item) => item.id !== action.payload);
+    });
+    builder.addCase(deleteLabel.rejected, (state, action) => {
+      state.isActionLoading = false;
+      state.error = action.error.message || 'Неизвестная ошибка';
+    });
+
+    builder.addCase(editLabel.pending, (state) => {
+      state.isActionLoading = true;
+      state.error = '';
+    });
+    builder.addCase(editLabel.fulfilled, (state, action) => {
+      state.isActionLoading = false;
+      state.data = state.data.map((label) => {
+        if (label.id === action.payload.id) return action.payload;
+        return label;
+      });
+    });
+    builder.addCase(editLabel.rejected, (state, action) => {
+      state.isActionLoading = false;
+      state.error = action.error.message || 'Неизвестная ошибка';
+    });
   },
 });
 
@@ -56,6 +90,8 @@ const labelsSlicetActions = {
   ...LabelListSlice.actions,
   getAllLabels,
   createLabel,
+  deleteLabel,
+  editLabel,
 };
 
 const labelsSliceSelectors = {

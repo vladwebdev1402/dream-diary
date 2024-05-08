@@ -3,6 +3,7 @@ import { ComponentPropsWithRef, FC } from 'react';
 
 import style from './style.module.scss';
 import { Typography } from '../Typography';
+import { Loader } from '../Loader';
 
 type Props = {
   variant?: 'contained' | 'text' | 'outlined';
@@ -37,7 +38,7 @@ const Button: FC<Props> = ({
       disabled={isLoading || props.disabled}
     >
       {!isLoading && <Typography fontWeight="semibold">{children}</Typography>}
-      {isLoading && <div className={style.loader} />}
+      {isLoading && <Loader size={22} />}
     </button>
   );
 };
