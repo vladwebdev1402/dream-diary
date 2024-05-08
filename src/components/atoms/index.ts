@@ -8,3 +8,4 @@ export * from './CharacterAvatar';
 export * from './PageTemplate';
 export * from './Skeleton';
 export * from './ErrorMessage';
+export * from './ThemeButton';

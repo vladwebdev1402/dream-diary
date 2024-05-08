@@ -1,17 +1,31 @@
-import { FC, ReactNode } from 'react';
+import { FC, MouseEvent, ReactNode } from 'react';
 import clsx from 'clsx';
 
+import { LabelTheme } from '@/types';
 import CrossSVG from '@/assets/decoration/cross.svg?react';
 
 import style from './style.module.scss';
 
 type Props = {
-  theme: 'gray' | 'blue' | 'red' | 'gold' | 'green';
+  theme: LabelTheme;
   children: ReactNode;
   isShowDelete?: boolean;
+  onClick?(): void;
+  onDelete?(): void;
 };
 
-const Label: FC<Props> = ({ theme, isShowDelete = false, children }) => {
+const Label: FC<Props> = ({
+  theme,
+  isShowDelete = false,
+  children,
+  onClick = () => {},
+  onDelete = () => {},
+}) => {
+  const onDeleteClick = (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    onDelete();
+  };
+
   return (
     <div
       className={clsx(style.label, {
@@ -23,9 +37,11 @@ const Label: FC<Props> = ({ theme, isShowDelete = false, children }) => {
         [style.label_delete]: isShowDelete,
       })}
     >
-      <button className={clsx(style.button)}>{children}</button>
+      <button className={clsx(style.button)} onClick={onClick}>
+        {children}
+      </button>
       {isShowDelete && (
-        <button className={style.delete}>
+        <button className={style.delete} onClick={onDeleteClick}>
           <CrossSVG className={style.icon} />
         </button>
       )}

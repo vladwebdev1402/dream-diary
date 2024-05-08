@@ -3,17 +3,9 @@ import { ChangeEvent, FC, FormEvent, useState } from 'react';
 import { Button, Input, Textarea } from '@/components/atoms';
 
 import style from './style.module.scss';
-import { Character, CharacterFormData, CharacterFormErrors } from '@/types';
+import { CharacterFormData, CharacterFormErrors, FormProps } from '@/types';
 
-type Props = {
-  defaultValue?: Pick<Character, 'name' | 'description'>;
-  formType: 'create' | 'edit';
-  isLoading?: boolean;
-  onCancel(): void;
-  onSuccessSubmit?(data: CharacterFormData): void;
-};
-
-const CharacterForm: FC<Props> = ({
+const CharacterForm: FC<FormProps<CharacterFormData>> = ({
   defaultValue = { name: '', description: '' },
   formType,
   isLoading = false,

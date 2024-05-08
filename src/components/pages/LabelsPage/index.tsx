@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { Container, Modal, PageTemplate } from '@/components/atoms';
-import { Label } from '@/components/molecules';
+import { LabelForm } from '@/components/organisms';
 
 const LabelsPage = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,11 +16,7 @@ const LabelsPage = () => {
         buttonText="Создать тег"
         onClick={onOpenClick}
       >
-        <Label theme="red">Паралич</Label>
-        <Label theme="blue">Паралич</Label>
-        <Label theme="gold">Паралич</Label>
-        <Label theme="gray">Паралич</Label>
-        <Label theme="green">Паралич</Label>
+        <LabelForm formType="create" onCancel={() => {}} />
       </PageTemplate>
       <Modal isOpen={isOpen} title="Создание тега" onClose={onCloseClick}>
         s
