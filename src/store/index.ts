@@ -16,12 +16,18 @@ import {
   characterSliceSelectors,
   characterSlicetActions,
 } from './slices/CharacterSlice';
+import {
+  labelsSliceReducer,
+  labelsSliceSelectors,
+  labelsSlicetActions,
+} from './slices/LabelListSlice';
 
 const store = configureStore({
   reducer: {
     dreamListReducer,
     characterListReducer,
     characterSliceReducer,
+    labelsSliceReducer,
   },
 });
 
@@ -29,12 +35,14 @@ const StoreActions = {
   dreamList: dreamListActions,
   characterList: characterListActions,
   character: characterSlicetActions,
+  labelsList: labelsSlicetActions,
 };
 
 const StoreSelectors = {
   dreamList: dreamListSelectors,
   characterList: characterListSelectors,
   character: characterSliceSelectors,
+  labelsList: labelsSliceSelectors,
 };
 
 type RootState = ReturnType<typeof store.getState>;

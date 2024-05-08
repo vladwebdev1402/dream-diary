@@ -1,6 +1,6 @@
 const ROUTER_PATHS = {
   main: '/',
-  tags: '/tags',
+  labels: '/labels',
   characters: '/characters',
   character: '/characters/:id',
   characterCreate: '/create/character',

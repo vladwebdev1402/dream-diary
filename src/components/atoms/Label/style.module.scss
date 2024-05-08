@@ -1,0 +1,143 @@
+@import '@/style/variables.scss';
+
+.skelet {
+  border-radius: 35px;
+  overflow: hidden;
+}
+
+.label {
+  position: relative;
+  border-radius: 35px;
+  display: inline-flex;
+
+  &:hover {
+    .button {
+      color: $white;
+    }
+  }
+
+  &_gray {
+    .button {
+      border: 1px solid $gray;
+      color: $gray;
+    }
+    .delete {
+      background-color: $gray;
+    }
+    &:hover {
+      background-color: $light-gray;
+    }
+  }
+
+  &_blue {
+    .button {
+      border: 1px solid $blue;
+      color: $blue;
+    }
+    .delete {
+      background-color: $blue;
+    }
+    &:hover {
+      background-color: $light-blue;
+    }
+  }
+
+  &_red {
+    .button {
+      border: 1px solid $red;
+      color: $red;
+    }
+    .delete {
+      background-color: $red;
+    }
+    &:hover {
+      background-color: $light-red;
+    }
+  }
+
+  &_gold {
+    .button {
+      border: 1px solid $gold;
+      color: $gold;
+    }
+    .delete {
+      background-color: $gold;
+    }
+    &:hover {
+      background-color: $light-gold;
+    }
+  }
+
+  &_green {
+    .button {
+      border: 1px solid $green;
+      color: $green;
+    }
+    .delete {
+      background-color: $green;
+    }
+    &:hover {
+      background-color: $light-green;
+    }
+  }
+
+  &_delete {
+    &:hover {
+      .button {
+      padding: 4px 24px 4px 12px;
+      }
+      .delete {
+        transform: translateY(-50%) scaleX(1);
+      }
+    }
+  }
+}
+
+.button {
+  border-radius: 35px;
+  background-color: transparent;
+  cursor: pointer;
+  transition: $transition;
+  padding: 0px;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 4px 12px 4px 12px;
+  border: none;
+}
+
+.delete {
+  position: absolute;
+  background-color: transparent;
+  border: none;
+  width: 17px;
+  height: 17px;
+  background-color: red;
+  border-radius: 50%;
+  right: 4px;
+  top: 50%;
+  transition: $transition;
+  transform: translateY(-50%) scaleX(0);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media (max-width: 992px) {
+  .label_delete {
+    .delete {
+      transform: translateY(-50%) scaleX(1);
+    }
+    .button {
+      padding: 4px 24px 4px 12px;
+    }
+  }
+}

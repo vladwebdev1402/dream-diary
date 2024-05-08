@@ -20,7 +20,7 @@ const Header = () => {
                 <HeaderLink to={ROUTER_PATHS.characters}>Персонажи</HeaderLink>
               </li>
               <li>
-                <HeaderLink to={ROUTER_PATHS.tags}>Теги</HeaderLink>
+                <HeaderLink to={ROUTER_PATHS.labels}>Теги</HeaderLink>
               </li>
             </ul>
           </nav>

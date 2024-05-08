@@ -30,12 +30,11 @@ const CharacterSlice = createSlice({
     });
     builder.addCase(getCharacter.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.data = action.payload !== undefined ? action.payload : null;
+      state.data = action.payload;
     });
     builder.addCase(getCharacter.rejected, (state, action) => {
       state.isLoading = false;
-      state.error =
-        action.payload === 'string' ? action.payload : 'Неизвестная ошибка';
+      state.error = action.error.message || 'Неизвестная ошибка';
     });
 
     builder.addCase(deleteCharacter.pending, (state) => {
@@ -48,8 +47,7 @@ const CharacterSlice = createSlice({
     });
     builder.addCase(deleteCharacter.rejected, (state, action) => {
       state.isActionLoading = false;
-      state.error =
-        action.payload === 'string' ? action.payload : 'Неизвестная ошибка';
+      state.error = action.error.message || 'Неизвестная ошибка';
     });
 
     builder.addCase(editCharacter.pending, (state) => {
@@ -62,8 +60,7 @@ const CharacterSlice = createSlice({
     });
     builder.addCase(editCharacter.rejected, (state, action) => {
       state.isActionLoading = false;
-      state.error =
-        action.payload === 'string' ? action.payload : 'Неизвестная ошибка';
+      state.error = action.error.message || 'Неизвестная ошибка';
     });
   },
 });
@@ -80,7 +77,8 @@ const characterSliceSelectors = {
   selectData: (state: RootState) => state.characterSliceReducer.data,
   selectAll: (state: RootState) => state.characterSliceReducer,
   selectIsLoading: (state: RootState) => state.characterSliceReducer.isLoading,
-  selectIsActionLoading: (state: RootState) => state.characterSliceReducer.isActionLoading,
+  selectIsActionLoading: (state: RootState) =>
+    state.characterSliceReducer.isActionLoading,
 };
 
 export {
