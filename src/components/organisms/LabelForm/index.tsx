@@ -33,6 +33,7 @@ const LabelForm: FC<FormProps<LabelFormData>> = ({
       setNameError('Поле необходимо обязательно заполнить');
     else {
       setNameError('');
+      setFormData(defaultValue);
       onSuccessSubmit(formData);
     }
   };

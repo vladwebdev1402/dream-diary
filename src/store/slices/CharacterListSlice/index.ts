@@ -33,12 +33,11 @@ const CharacterListSlice = createSlice({
     });
     builder.addCase(getAllCharacters.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.data = action.payload !== undefined ? action.payload : [];
+      state.data = action.payload;
     });
     builder.addCase(getAllCharacters.rejected, (state, action) => {
       state.isLoading = false;
-      state.error =
-        action.payload === 'string' ? action.payload : 'Неизвестная ошибка';
+      state.error = action.error.message || 'Неизвестная ошибка';
     });
 
     builder.addCase(createCharacter.pending, (state) => {
@@ -51,10 +50,8 @@ const CharacterListSlice = createSlice({
     });
     builder.addCase(createCharacter.rejected, (state, action) => {
       state.isLoading = false;
-      state.error =
-        action.payload === 'string' ? action.payload : 'Неизвестная ошибка';
+      state.error = action.error.message || 'Неизвестная ошибка';
     });
-    
   },
 });
 

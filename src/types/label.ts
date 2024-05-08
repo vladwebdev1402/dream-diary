@@ -5,4 +5,10 @@ type LabelFormData = {
     theme: LabelTheme;
 }
 
-export type { LabelTheme, LabelFormData };
+type Label = {
+    id: string;
+    name: string;
+    theme: LabelTheme;
+}
+
+export type { LabelTheme, LabelFormData, Label };

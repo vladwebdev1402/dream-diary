@@ -1,13 +1,33 @@
 import { useState } from 'react';
 
 import { Container, Modal, PageTemplate } from '@/components/atoms';
-import { LabelForm } from '@/components/organisms';
+import { LabelForm, LabelsList } from '@/components/organisms';
+import {
+  StoreActions,
+  StoreSelectors,
+  useAppDispatch,
+  useAppSelector,
+} from '@/store';
+import { LabelFormData } from '@/types';
+import { myUID } from '@/constants';
 
 const LabelsPage = () => {
+  const dispatch = useAppDispatch();
+  const isLoading = useAppSelector(
+    StoreSelectors.labelsList.selectIsActionLoading,
+  );
+
   const [isOpen, setIsOpen] = useState(false);
 
   const onOpenClick = () => setIsOpen(true);
   const onCloseClick = () => setIsOpen(false);
+
+  const onSuccessSubmit = async (data: LabelFormData) => {
+    await dispatch(
+      StoreActions.labelsList.createLabel({ userUid: myUID, ...data }),
+    );
+    setIsOpen(false);
+  };
 
   return (
     <Container>
@@ -16,10 +36,15 @@ const LabelsPage = () => {
         buttonText="Создать тег"
         onClick={onOpenClick}
       >
-        <LabelForm formType="create" onCancel={() => {}} />
+        <LabelsList />
       </PageTemplate>
       <Modal isOpen={isOpen} title="Создание тега" onClose={onCloseClick}>
-        s
+        <LabelForm
+          formType="create"
+          onCancel={() => setIsOpen(false)}
+          isLoading={isLoading}
+          onSuccessSubmit={onSuccessSubmit}
+        />
       </Modal>
     </Container>
   );

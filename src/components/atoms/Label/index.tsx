@@ -5,25 +5,24 @@ import { LabelTheme } from '@/types';
 import CrossSVG from '@/assets/decoration/cross.svg?react';
 
 import style from './style.module.scss';
+import { LabelSkeleton } from './LabelSkeleton';
 
 type Props = {
   theme: LabelTheme;
   children: ReactNode;
-  isShowDelete?: boolean;
-  onClick?(): void;
   onDelete?(): void;
+  onClick?(): void;
 };
 
 const Label: FC<Props> = ({
   theme,
-  isShowDelete = false,
   children,
+  onDelete,
   onClick = () => {},
-  onDelete = () => {},
 }) => {
   const onDeleteClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    onDelete();
+    onDelete && onDelete();
   };
 
   return (
@@ -34,13 +33,13 @@ const Label: FC<Props> = ({
         [style.label_red]: theme === 'red',
         [style.label_gold]: theme === 'gold',
         [style.label_green]: theme === 'green',
-        [style.label_delete]: isShowDelete,
+        [style.label_delete]: onDelete,
       })}
     >
       <button className={clsx(style.button)} onClick={onClick}>
         {children}
       </button>
-      {isShowDelete && (
+      {onDelete && (
         <button className={style.delete} onClick={onDeleteClick}>
           <CrossSVG className={style.icon} />
         </button>
@@ -50,3 +49,4 @@ const Label: FC<Props> = ({
 };
 
 export { Label };
+export { LabelSkeleton };
