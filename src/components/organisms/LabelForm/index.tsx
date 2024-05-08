@@ -14,9 +14,10 @@ const LabelForm: FC<FormProps<LabelFormData>> = ({
   formType,
   isLoading = false,
   onCancel,
-  onSuccessSubmit,
+  onSuccessSubmit = () => {},
 }) => {
   const [formData, setFormData] = useState<LabelFormData>(defaultValue);
+  const [nameError, setNameError] = useState('');
 
   const onNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, name: e.target.value });
@@ -28,6 +29,12 @@ const LabelForm: FC<FormProps<LabelFormData>> = ({
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (formData.name === '')
+      setNameError('Поле необходимо обязательно заполнить');
+    else {
+      setNameError('');
+      onSuccessSubmit(formData);
+    }
   };
 
   return (
@@ -36,6 +43,7 @@ const LabelForm: FC<FormProps<LabelFormData>> = ({
         label="Название тега"
         value={formData.name}
         onChange={onNameChange}
+        error={nameError}
       />
       <div className={style.themes}>
         {themes.map((item) => (
@@ -48,10 +56,10 @@ const LabelForm: FC<FormProps<LabelFormData>> = ({
         ))}
       </div>
       <div className={style.buttons}>
-        <Button type="submit" fullwidth>
+        <Button type="submit" fullwidth isLoading={isLoading}>
           {formType === 'edit' ? 'Редактировать' : 'Создать'}
         </Button>
-        <Button type="button" variant="outlined" fullwidth>
+        <Button type="button" variant="outlined" fullwidth onClick={onCancel}>
           Вернуться назад
         </Button>
       </div>
