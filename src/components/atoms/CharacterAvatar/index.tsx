@@ -5,20 +5,23 @@ import Stub from '@/assets/images/avatar-stub.png';
 
 import style from './style.module.scss';
 import { Typography } from '@/components/atoms';
+import clsx from 'clsx';
 
 type Props = {
   character: Character;
   withName?: boolean;
-  //   checked?: boolean;
+  checked?: boolean;
 };
 
 const CharacterAvatar: FC<Props> = ({
   character,
   withName = true,
-  //   checked = false,
+  checked = false,
 }) => {
   return (
-    <div className={style.character}>
+    <div
+      className={clsx(style.character, { [style.character_checked]: checked })}
+    >
       <div className={style.avatar}>
         <img src={character.avatarUrl || Stub} />
       </div>

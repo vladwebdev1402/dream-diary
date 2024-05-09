@@ -13,7 +13,7 @@ import { Label, LabelFormData } from '@/types';
 
 import style from './style.module.scss';
 import { LabelListSkeleton } from './LabelListSkeleton';
-import { LabelForm } from '../LabelForm';
+import { LabelForm } from '../../molecules/LabelForm';
 
 const LabelsList = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -68,7 +68,12 @@ const LabelsList = () => {
   return (
     <div className={style.list}>
       {data.map((item) => (
-        <LabelCard key={item.id} label={item} onSelectLabel={onSelectLabel} />
+        <LabelCard
+          key={item.id}
+          label={item}
+          onSelectLabel={onSelectLabel}
+          isWithDelete
+        />
       ))}
       <Modal title="Редактирование тега" isOpen={isOpen} onClose={onClose}>
         {currentLabel && (

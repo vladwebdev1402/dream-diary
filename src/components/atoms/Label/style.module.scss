@@ -84,11 +84,17 @@
   &_delete {
     &:hover {
       .button {
-      padding: 4px 24px 4px 12px;
+        padding: 4px 24px 4px 12px;
       }
       .delete {
         transform: translateY(-50%) scaleX(1);
       }
+    }
+  }
+
+  &_checked {
+    .button {
+      background-color: $secondary;
     }
   }
 }

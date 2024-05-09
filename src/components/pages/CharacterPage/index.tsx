@@ -1,12 +1,9 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-import {
-  CharacterForm,
-  CharacterFormData,
-  CharacterInfo,
-} from '@/components/organisms';
 import { Button, Container } from '@/components/atoms';
+import { CharacterForm } from '@/components/molecules';
+import { CharacterInfo } from '@/components/organisms';
 import {
   StoreActions,
   StoreSelectors,
@@ -16,6 +13,7 @@ import {
 
 import style from './style.module.scss';
 import { ROUTER_PATHS } from '@/constants';
+import { CharacterFormData } from '@/types';
 
 const CharacterPage = () => {
   const navigate = useNavigate();

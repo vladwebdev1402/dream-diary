@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { CharacterFormData } from '@/components';
-import { Character } from '@/types';
+import { Character, CharacterFormData } from '@/types';
 import { RootState } from '@/store';
 
 import { createCharacter, getAllCharacters } from './actionCreators';

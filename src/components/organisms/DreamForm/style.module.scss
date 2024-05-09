@@ -1,0 +1,31 @@
+.avatar {
+  width: 176px;
+  height: 176px;
+  border: 1px solid black;
+  border-radius: 16px;
+  margin: 0 auto;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.characters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.labels {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}

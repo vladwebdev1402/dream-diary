@@ -1,0 +1,10 @@
+.buttons {
+  display: flex;
+  gap: 8px;
+}
+
+@media (max-width: 568px) {
+  .buttons {
+    flex-wrap: wrap;
+  }
+}

@@ -1,5 +1,7 @@
+import { useNavigate } from 'react-router-dom';
+
 import { Container, PageTemplate } from '@/components/atoms';
-import { CharacterForm, CharacterFormData } from '@/components/organisms';
+import { CharacterForm, CharacterFormData } from '@/components/molecules';
 import { ROUTER_PATHS, myUID } from '@/constants';
 import {
   StoreActions,
@@ -7,7 +9,6 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '@/store';
-import { useNavigate } from 'react-router-dom';
 
 const CharacterCreatePage = () => {
   const dispatch = useAppDispatch();

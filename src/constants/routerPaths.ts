@@ -5,6 +5,7 @@ const ROUTER_PATHS = {
   character: '/characters/:id',
   characterCreate: '/create/character',
   dreams: '/dreams',
+  dreamCreate: '/create/dreams',
 };
 
 const getNavigateRoute = {

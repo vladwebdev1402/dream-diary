@@ -11,6 +11,7 @@ import { Loader } from '../Loader';
 type Props = {
   theme: LabelTheme;
   isLoading?: boolean;
+  isChecked?: boolean;
   children: ReactNode;
   onDelete?(): void;
   onClick?(): void;
@@ -19,6 +20,7 @@ type Props = {
 const Label: FC<Props> = ({
   theme,
   isLoading = false,
+  isChecked = false,
   children,
   onDelete,
   onClick = () => {},
@@ -36,6 +38,7 @@ const Label: FC<Props> = ({
         [style.label_red]: theme === 'red',
         [style.label_gold]: theme === 'gold',
         [style.label_green]: theme === 'green',
+        [style.label_checked]: isChecked,
         [style.label_delete]: onDelete,
       })}
     >
