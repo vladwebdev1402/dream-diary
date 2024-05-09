@@ -51,52 +51,53 @@ const AddLabelToDream: FC<Props> = ({
     onSave(checkedValues);
     onClose();
   };
-  return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      title={windowType === 'add' ? 'Добавление тегов' : 'Создание тега'}
-    >
-      <div className={style.body}>
-        {windowType === 'add' && (
-          <>
-            <div className={style.labels}>
-              {labels.map((item) => (
-                <LabelCard
-                  key={item.id}
-                  label={item}
-                  onSelectLabel={onSelectLabel}
-                  isChecked={
-                    !!checkedValues.find((subItem) => subItem === item.id)
-                  }
-                />
-              ))}
-            </div>
-            <div className={style.buttons}>
-              <Button onClick={onSaveClick} fullwidth>
-                Сохранить
-              </Button>
-              <Button
-                variant="outlined"
-                fullwidth
-                onClick={() => setWindowType('create')}
-              >
-                Создать новый
-              </Button>
-            </div>
-          </>
-        )}
-        {windowType === 'create' && (
-          <LabelForm
-            formType="create"
-            onCancel={() => setWindowType('add')}
-            onSuccessSubmit={onSuccessSubmit}
-            isLoading={isLoading}
-          />
-        )}
-      </div>
-    </Modal>
-  );
+  if (labels)
+    return (
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        title={windowType === 'add' ? 'Добавление тегов' : 'Создание тега'}
+      >
+        <div className={style.body}>
+          {windowType === 'add' && (
+            <>
+              <div className={style.labels}>
+                {labels.map((item) => (
+                  <LabelCard
+                    key={item.id}
+                    label={item}
+                    onSelectLabel={onSelectLabel}
+                    isChecked={
+                      !!checkedValues.find((subItem) => subItem === item.id)
+                    }
+                  />
+                ))}
+              </div>
+              <div className={style.buttons}>
+                <Button onClick={onSaveClick} fullwidth>
+                  Сохранить
+                </Button>
+                <Button
+                  variant="outlined"
+                  fullwidth
+                  onClick={() => setWindowType('create')}
+                >
+                  Создать новый
+                </Button>
+              </div>
+            </>
+          )}
+          {windowType === 'create' && (
+            <LabelForm
+              formType="create"
+              onCancel={() => setWindowType('add')}
+              onSuccessSubmit={onSuccessSubmit}
+              isLoading={isLoading}
+            />
+          )}
+        </div>
+      </Modal>
+    );
 };
 
 export { AddLabelToDream };

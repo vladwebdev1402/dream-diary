@@ -50,54 +50,55 @@ const AddCharacterToDream: FC<Props> = ({
     setWindowType('add');
   };
 
-  return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      title={
-        windowType === 'add' ? 'Добавление персонажей' : 'Создание персонажа'
-      }
-    >
-      {windowType === 'add' && (
-        <>
-          <div className={style.body}>
-            <div className={style.characters}>
-              {characters.map((item) => (
-                <ButtonCharacterAvatar
-                  character={item}
-                  checked={
-                    !!checkedValues.find((subItem) => subItem === item.id)
-                  }
-                  onClick={onCheckedClick}
-                />
-              ))}
+  if (characters)
+    return (
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        title={
+          windowType === 'add' ? 'Добавление персонажей' : 'Создание персонажа'
+        }
+      >
+        {windowType === 'add' && (
+          <>
+            <div className={style.body}>
+              <div className={style.characters}>
+                {characters.map((item) => (
+                  <ButtonCharacterAvatar
+                    character={item}
+                    checked={
+                      !!checkedValues.find((subItem) => subItem === item.id)
+                    }
+                    onClick={onCheckedClick}
+                  />
+                ))}
+              </div>
+              <div className={style.buttons}>
+                <Button onClick={onSaveClick} fullwidth>
+                  Сохранить
+                </Button>
+                <Button
+                  variant="outlined"
+                  fullwidth
+                  onClick={() => setWindowType('create')}
+                >
+                  Создать нового
+                </Button>
+              </div>
             </div>
-            <div className={style.buttons}>
-              <Button onClick={onSaveClick} fullwidth>
-                Сохранить
-              </Button>
-              <Button
-                variant="outlined"
-                fullwidth
-                onClick={() => setWindowType('create')}
-              >
-                Создать нового
-              </Button>
-            </div>
-          </div>
-        </>
-      )}
+          </>
+        )}
 
-      {windowType === 'create' && (
-        <CharacterForm
-          formType="create"
-          onCancel={() => setWindowType('add')}
-          onSuccessSubmit={onSuccessSubmit}
-          isLoading={isLoading}
-        />
-      )}
-    </Modal>
-  );
+        {windowType === 'create' && (
+          <CharacterForm
+            formType="create"
+            onCancel={() => setWindowType('add')}
+            onSuccessSubmit={onSuccessSubmit}
+            isLoading={isLoading}
+          />
+        )}
+      </Modal>
+    );
 };
 
 export { AddCharacterToDream };

@@ -57,7 +57,7 @@ const LabelsList = () => {
   if (error)
     return <ErrorMessage title="Произошла ошибка" description={error} />;
 
-  if (!error && !isLoading && data.length === 0)
+  if (!error && !isLoading && data && data.length === 0)
     return (
       <ErrorMessage
         title="Список тегов пуст"
@@ -65,32 +65,33 @@ const LabelsList = () => {
       />
     );
 
-  return (
-    <div className={style.list}>
-      {data.map((item) => (
-        <LabelCard
-          key={item.id}
-          label={item}
-          onSelectLabel={onSelectLabel}
-          isWithDelete
-        />
-      ))}
-      <Modal title="Редактирование тега" isOpen={isOpen} onClose={onClose}>
-        {currentLabel && (
-          <LabelForm
-            formType="edit"
-            defaultValue={{
-              name: currentLabel.name,
-              theme: currentLabel.theme,
-            }}
-            onCancel={onClose}
-            isLoading={isActionLoading}
-            onSuccessSubmit={onSuccessSubmit}
+  if (data)
+    return (
+      <div className={style.list}>
+        {data.map((item) => (
+          <LabelCard
+            key={item.id}
+            label={item}
+            onSelectLabel={onSelectLabel}
+            isWithDelete
           />
-        )}
-      </Modal>
-    </div>
-  );
+        ))}
+        <Modal title="Редактирование тега" isOpen={isOpen} onClose={onClose}>
+          {currentLabel && (
+            <LabelForm
+              formType="edit"
+              defaultValue={{
+                name: currentLabel.name,
+                theme: currentLabel.theme,
+              }}
+              onCancel={onClose}
+              isLoading={isActionLoading}
+              onSuccessSubmit={onSuccessSubmit}
+            />
+          )}
+        </Modal>
+      </div>
+    );
 };
 
 export { LabelsList };

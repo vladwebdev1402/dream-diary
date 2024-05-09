@@ -46,3 +46,9 @@
 .name {
   margin-top: 8px;
 }
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}

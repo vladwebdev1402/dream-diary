@@ -31,10 +31,9 @@ const DreamList = () => {
 
   useEffect(() => {
     dispatch(StoreActions.dreamList.getAllDreams(myUID));
-    if (characters.length === 0)
+    if (characters === null)
       dispatch(StoreActions.characterList.getAllCharacters(myUID));
-    if (labels.length === 0)
-      dispatch(StoreActions.labelsList.getAllLabels(myUID));
+    if (labels === null) dispatch(StoreActions.labelsList.getAllLabels(myUID));
   }, []);
 
   if (isLoading || isLabelsLoading || isCharactersLoading)
@@ -43,7 +42,7 @@ const DreamList = () => {
   if (error)
     return <ErrorMessage title="Произошла ошибка" description={error} />;
 
-  if (data.length === 0)
+  if (data && data.length === 0)
     return (
       <ErrorMessage title="Список снов пуст" description="Создайте новый сон" />
     );

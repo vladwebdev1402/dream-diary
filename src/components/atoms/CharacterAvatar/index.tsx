@@ -7,6 +7,7 @@ import Stub from '@/assets/images/avatar-stub.png';
 
 import style from './style.module.scss';
 import { CharacterAvatarSkeleton } from './CharacterAvatarSkeleton';
+import { CharacterAvatarListSkeleton } from './CharacterAvatarListSkeleton';
 
 type Props = {
   character: Character;
@@ -34,4 +35,8 @@ const CharacterAvatar: FC<Props> = ({
     </div>
   );
 };
-export { CharacterAvatar, CharacterAvatarSkeleton };
+export {
+  CharacterAvatar,
+  CharacterAvatarSkeleton,
+  CharacterAvatarListSkeleton,
+};

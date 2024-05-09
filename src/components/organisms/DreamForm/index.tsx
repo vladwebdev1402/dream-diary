@@ -4,7 +4,9 @@ import {
   AddCharacterButton,
   AddTagButton,
   CharacterAvatar,
+  CharacterAvatarListSkeleton,
   Input,
+  LabelListSkeleton,
   Textarea,
 } from '@/components/atoms';
 import { FormButtons, LabelCard } from '@/components/molecules';
@@ -76,10 +78,9 @@ const DreamForm: FC<FormProps<DreamFormData>> = ({
   };
 
   useEffect(() => {
-    if (characters.length === 0)
+    if (characters === null)
       dispatch(StoreActions.characterList.getAllCharacters(myUID));
-    if (labels.length === 0)
-      dispatch(StoreActions.labelsList.getAllLabels(myUID));
+    if (labels === null) dispatch(StoreActions.labelsList.getAllLabels(myUID));
   }, [characters, labels, myUID]);
 
   return (
@@ -103,7 +104,9 @@ const DreamForm: FC<FormProps<DreamFormData>> = ({
           />
         </div>
         <div className={style.characters}>
-          {formData.characters &&
+          {characters === null && <CharacterAvatarListSkeleton />}
+          {characters &&
+            formData.characters &&
             formData.characters.map((item) => {
               const character = characters.find(
                 (subitem) => subitem.id === item,
@@ -115,7 +118,9 @@ const DreamForm: FC<FormProps<DreamFormData>> = ({
           <AddCharacterButton onClick={() => setIsOpenCharacters(true)} />
         </div>
         <div className={style.labels}>
-          {formData.labels &&
+          {labels === null && <LabelListSkeleton count={5} />}
+          {labels &&
+            formData.labels &&
             formData.labels.map((item) => {
               const label = labels.find((subitem) => subitem.id === item);
               return label ? <LabelCard key={label.id} label={label} /> : null;

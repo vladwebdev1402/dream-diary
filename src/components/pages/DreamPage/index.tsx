@@ -59,10 +59,9 @@ const DreamPage = () => {
 
   useEffect(() => {
     dispatch(StoreActions.dream.getDream(params.id || ''));
-    if (characters.length === 0)
+    if (characters === null)
       dispatch(StoreActions.characterList.getAllCharacters(myUID));
-    if (labels.length === 0)
-      dispatch(StoreActions.labelsList.getAllLabels(myUID));
+    if (labels === null) dispatch(StoreActions.labelsList.getAllLabels(myUID));
   }, [params]);
 
   if (error)
@@ -75,7 +74,7 @@ const DreamPage = () => {
   if (isLoading || labelsLoading || charactersLoading)
     return <DreamPageSkeleton />;
 
-  if (step === 'show' && data)
+  if (step === 'show' && data && characters && labels)
     return (
       <Container>
         <div className={style.dream}>

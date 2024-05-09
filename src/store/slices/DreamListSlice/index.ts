@@ -9,14 +9,14 @@ type InitialState = {
   isLoading: boolean;
   isActionLoading: boolean;
   error: string;
-  data: Dream[];
+  data: Dream[] | null;
 };
 
 const initialState: InitialState = {
   isLoading: false,
   isActionLoading: false,
   error: '',
-  data: [],
+  data: null,
 };
 
 const DreamListSlice = createSlice({
@@ -43,7 +43,7 @@ const DreamListSlice = createSlice({
     });
     builder.addCase(createDream.fulfilled, (state, action) => {
       state.isActionLoading = false;
-      state.data.push(action.payload);
+      if (state.data) state.data.push(action.payload);
     });
     builder.addCase(createDream.rejected, (state, action) => {
       state.isActionLoading = false;

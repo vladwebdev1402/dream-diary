@@ -6,6 +6,7 @@ import CrossSVG from '@/assets/decoration/cross.svg?react';
 
 import style from './style.module.scss';
 import { LabelSkeleton } from './LabelSkeleton';
+import { LabelListSkeleton } from './LabelListSkeleton';
 import { Loader } from '../Loader';
 
 type Props = {
@@ -58,5 +59,4 @@ const Label: FC<Props> = ({
   );
 };
 
-export { Label };
-export { LabelSkeleton };
+export { Label, LabelSkeleton, LabelListSkeleton };
