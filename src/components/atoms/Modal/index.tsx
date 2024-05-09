@@ -1,4 +1,4 @@
-import { FC, MouseEvent, ReactNode } from 'react';
+import { FC, MouseEvent, ReactNode, useEffect } from 'react';
 import clsx from 'clsx';
 
 import style from './style.module.scss';
@@ -12,6 +12,13 @@ type Props = {
 };
 
 const Modal: FC<Props> = ({ title, isOpen, onClose, children }) => {
+  useEffect(() => {
+    const body = document.getElementsByTagName('body')[0];
+
+    if (isOpen) body.classList.add('stop-scroll');
+    else body.classList.remove('stop-scroll');
+  }, [isOpen]);
+
   return (
     <div
       className={clsx(style.modal, { [style.modal_open]: isOpen })}
