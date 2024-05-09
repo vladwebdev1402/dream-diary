@@ -5,6 +5,7 @@ import {
   Button,
   CharacterAvatar,
   Container,
+  ErrorMessage,
   Typography,
 } from '@/components/atoms';
 import {
@@ -18,6 +19,8 @@ import { ROUTER_PATHS, myUID } from '@/constants';
 import style from './style.module.scss';
 import { LabelCard } from '@/components/molecules';
 import { DreamPageSkeleton } from './DreamPageSkeleton';
+import { DreamForm } from '@/components/organisms';
+import { DreamFormData } from '@/types';
 
 const DreamPage = () => {
   const dispatch = useAppDispatch();
@@ -45,6 +48,15 @@ const DreamPage = () => {
     }
   };
 
+  const onSuccessSubmit = async (dream: DreamFormData) => {
+    if (data) {
+      await dispatch(
+        StoreActions.dream.editDream({ ...dream, id: data.id, userUid: myUID }),
+      );
+      setStep('show');
+    }
+  };
+
   useEffect(() => {
     dispatch(StoreActions.dream.getDream(params.id || ''));
     if (characters.length === 0)
@@ -52,6 +64,13 @@ const DreamPage = () => {
     if (labels.length === 0)
       dispatch(StoreActions.labelsList.getAllLabels(myUID));
   }, [params]);
+
+  if (error)
+    return (
+      <Container>
+        <ErrorMessage title="Произошла ошибка" description={error} />
+      </Container>
+    );
 
   if (isLoading || labelsLoading || charactersLoading)
     return <DreamPageSkeleton />;
@@ -115,6 +134,19 @@ const DreamPage = () => {
             </Button>
           </div>
         </div>
+      </Container>
+    );
+
+  if (data && step === 'edit')
+    return (
+      <Container>
+        <DreamForm
+          formType="edit"
+          defaultValue={data}
+          isLoading={isActionLoading}
+          onCancel={() => setStep('show')}
+          onSuccessSubmit={onSuccessSubmit}
+        />
       </Container>
     );
 };
