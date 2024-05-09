@@ -3,16 +3,18 @@ import { createSlice } from '@reduxjs/toolkit';
 import { Dream } from '@/types';
 import { RootState } from '@/store';
 
-import { getAllDreams } from './actionCreators';
+import { createDream, getAllDreams } from './actionCreators';
 
 type InitialState = {
   isLoading: boolean;
+  isActionLoading: boolean;
   error: string;
   data: Dream[];
 };
 
 const initialState: InitialState = {
   isLoading: false,
+  isActionLoading: false,
   error: '',
   data: [],
 };
@@ -34,15 +36,34 @@ const DreamListSlice = createSlice({
       state.isLoading = false;
       state.error = (action.payload as string) || 'Неизвестная ошибка';
     });
+
+    builder.addCase(createDream.pending, (state) => {
+      state.error = '';
+      state.isActionLoading = true;
+    });
+    builder.addCase(createDream.fulfilled, (state, action) => {
+      state.isActionLoading = false;
+      state.data.push(action.payload);
+    });
+    builder.addCase(createDream.rejected, (state, action) => {
+      state.isActionLoading = false;
+      state.error = (action.payload as string) || 'Неизвестная ошибка';
+    });
   },
 });
 
 const dreamListReducer = DreamListSlice.reducer;
-const dreamListActions = { ...DreamListSlice.actions, getAllDreams };
+const dreamListActions = {
+  ...DreamListSlice.actions,
+  getAllDreams,
+  createDream,
+};
 
 const dreamListSelectors = {
   selectData: (state: RootState) => state.dreamListReducer.data,
   selectAll: (state: RootState) => state.dreamListReducer,
+  selectIsActionLoading: (state: RootState) =>
+    state.dreamListReducer.isActionLoading,
 };
 
 export { dreamListActions, dreamListReducer, dreamListSelectors };

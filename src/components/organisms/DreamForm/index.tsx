@@ -30,6 +30,7 @@ const DreamForm: FC<FormProps<DreamFormData>> = ({
     cover: '',
     characters: [],
     labels: [],
+    date: new Date(),
   },
   isLoading,
   onSuccessSubmit,
@@ -47,7 +48,7 @@ const DreamForm: FC<FormProps<DreamFormData>> = ({
   };
 
   const onDescriptionChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setFormData({ ...formData, name: e.target.value });
+    setFormData({ ...formData, description: e.target.value });
   };
 
   const onCharactersSave = (data: string[]) => {
