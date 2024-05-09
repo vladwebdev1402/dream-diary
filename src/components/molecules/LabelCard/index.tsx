@@ -11,10 +11,17 @@ import {
 
 type Props = {
   label: Label;
+  isWithDelete?: boolean;
+  isChecked?: boolean;
   onSelectLabel?(label: Label): void;
 };
 
-const LabelCard: FC<Props> = ({ label, onSelectLabel }) => {
+const LabelCard: FC<Props> = ({
+  label,
+  isWithDelete,
+  isChecked,
+  onSelectLabel,
+}) => {
   const dispatch = useAppDispatch();
   const isLoading = useAppSelector(
     StoreSelectors.labelsList.selectIsActionLoading,
@@ -27,9 +34,10 @@ const LabelCard: FC<Props> = ({ label, onSelectLabel }) => {
   return (
     <LabelComponent
       theme={label.theme}
-      onDelete={onDeleteClick}
+      onDelete={(isWithDelete && onDeleteClick) || undefined}
       onClick={() => onSelectLabel && onSelectLabel(label)}
       isLoading={isLoading}
+      isChecked={isChecked}
     >
       {label.name}
     </LabelComponent>

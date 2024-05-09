@@ -1,7 +1,8 @@
 import { useState } from 'react';
 
 import { Container, Modal, PageTemplate } from '@/components/atoms';
-import { LabelForm, LabelsList } from '@/components/organisms';
+import { LabelsList } from '@/components/organisms';
+import { LabelForm } from '@/components/molecules';
 import {
   StoreActions,
   StoreSelectors,

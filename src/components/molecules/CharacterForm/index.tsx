@@ -1,9 +1,9 @@
 import { ChangeEvent, FC, FormEvent, useState } from 'react';
 
 import { Button, Input, Textarea } from '@/components/atoms';
+import { CharacterFormData, CharacterFormErrors, FormProps } from '@/types';
 
 import style from './style.module.scss';
-import { CharacterFormData, CharacterFormErrors, FormProps } from '@/types';
 
 const CharacterForm: FC<FormProps<CharacterFormData>> = ({
   defaultValue = { name: '', description: '' },

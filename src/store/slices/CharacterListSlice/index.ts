@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { CharacterFormData } from '@/components';
-import { Character } from '@/types';
+import { Character, CharacterFormData } from '@/types';
 import { RootState } from '@/store';
 
 import { createCharacter, getAllCharacters } from './actionCreators';
@@ -9,13 +8,13 @@ import { createCharacter, getAllCharacters } from './actionCreators';
 type InitialState = {
   isLoading: boolean;
   error: string;
-  data: Character[];
+  data: Character[] | null;
 };
 
 const initialState: InitialState = {
   isLoading: false,
   error: '',
-  data: [],
+  data: null,
 };
 
 const CharacterListSlice = createSlice({
@@ -23,7 +22,8 @@ const CharacterListSlice = createSlice({
   initialState,
   reducers: {
     addNewCharacter: (state, action: PayloadAction<CharacterFormData>) => {
-      state.data.push({ id: Math.random().toString(), ...action.payload });
+      if (state.data)
+        state.data.push({ id: Math.random().toString(), ...action.payload });
     },
   },
   extraReducers: (builder) => {
@@ -46,7 +46,7 @@ const CharacterListSlice = createSlice({
     });
     builder.addCase(createCharacter.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.data.push(action.payload);
+      if (state.data) state.data.push(action.payload);
     });
     builder.addCase(createCharacter.rejected, (state, action) => {
       state.isLoading = false;

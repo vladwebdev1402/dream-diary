@@ -32,13 +32,14 @@ const CharacterList = () => {
 
   if (isLoading) return <CharacterListSkeleton />;
 
-  return (
-    <div className={style.list}>
-      {data.map((item) => (
-        <CharacterCard key={item.id} character={item} />
-      ))}
-    </div>
-  );
+  if (data)
+    return (
+      <div className={style.list}>
+        {data.map((item) => (
+          <CharacterCard key={item.id} character={item} />
+        ))}
+      </div>
+    );
 };
 
 export { CharacterList };

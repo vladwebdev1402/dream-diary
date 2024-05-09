@@ -1,0 +1,22 @@
+.body {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.characters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.buttons {
+    display: flex;
+    gap: 8px;
+}
+
+@media (max-width: 992px) {
+    .buttons {
+        flex-wrap: wrap;
+    }
+}

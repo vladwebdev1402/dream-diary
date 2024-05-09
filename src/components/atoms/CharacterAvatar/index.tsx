@@ -1,24 +1,29 @@
 import { FC } from 'react';
+import clsx from 'clsx';
 
 import { Character } from '@/types';
+import { Typography } from '@/components/atoms';
 import Stub from '@/assets/images/avatar-stub.png';
 
 import style from './style.module.scss';
-import { Typography } from '@/components/atoms';
+import { CharacterAvatarSkeleton } from './CharacterAvatarSkeleton';
+import { CharacterAvatarListSkeleton } from './CharacterAvatarListSkeleton';
 
 type Props = {
   character: Character;
   withName?: boolean;
-  //   checked?: boolean;
+  checked?: boolean;
 };
 
 const CharacterAvatar: FC<Props> = ({
   character,
   withName = true,
-  //   checked = false,
+  checked = false,
 }) => {
   return (
-    <div className={style.character}>
+    <div
+      className={clsx(style.character, { [style.character_checked]: checked })}
+    >
       <div className={style.avatar}>
         <img src={character.avatarUrl || Stub} />
       </div>
@@ -30,4 +35,8 @@ const CharacterAvatar: FC<Props> = ({
     </div>
   );
 };
-export { CharacterAvatar };
+export {
+  CharacterAvatar,
+  CharacterAvatarSkeleton,
+  CharacterAvatarListSkeleton,
+};

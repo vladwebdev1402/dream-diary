@@ -13,14 +13,14 @@ type InitialState = {
   isLoading: boolean;
   isActionLoading: boolean;
   error: string;
-  data: Label[];
+  data: Label[] | null;
 };
 
 const initialState: InitialState = {
   isLoading: false,
   isActionLoading: false,
   error: '',
-  data: [],
+  data: null,
 };
 
 const LabelListSlice = createSlice({
@@ -47,7 +47,7 @@ const LabelListSlice = createSlice({
     });
     builder.addCase(createLabel.fulfilled, (state, action) => {
       state.isActionLoading = false;
-      state.data.push(action.payload);
+      if (state.data) state.data.push(action.payload);
     });
     builder.addCase(createLabel.rejected, (state, action) => {
       state.isActionLoading = false;
@@ -60,7 +60,8 @@ const LabelListSlice = createSlice({
     });
     builder.addCase(deleteLabel.fulfilled, (state, action) => {
       state.isActionLoading = false;
-      state.data = state.data.filter((item) => item.id !== action.payload);
+      if (state.data)
+        state.data = state.data.filter((item) => item.id !== action.payload);
     });
     builder.addCase(deleteLabel.rejected, (state, action) => {
       state.isActionLoading = false;
@@ -73,10 +74,11 @@ const LabelListSlice = createSlice({
     });
     builder.addCase(editLabel.fulfilled, (state, action) => {
       state.isActionLoading = false;
-      state.data = state.data.map((label) => {
-        if (label.id === action.payload.id) return action.payload;
-        return label;
-      });
+      if (state.data)
+        state.data = state.data.map((label) => {
+          if (label.id === action.payload.id) return action.payload;
+          return label;
+        });
     });
     builder.addCase(editLabel.rejected, (state, action) => {
       state.isActionLoading = false;
@@ -96,6 +98,7 @@ const labelsSlicetActions = {
 
 const labelsSliceSelectors = {
   selectData: (state: RootState) => state.labelsSliceReducer.data,
+  selectIsLoading: (state: RootState) => state.labelsSliceReducer.isLoading,
   selectError: (state: RootState) => state.labelsSliceReducer.error,
   selectAll: (state: RootState) => state.labelsSliceReducer,
   selectIsActionLoading: (state: RootState) =>

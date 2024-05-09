@@ -10,3 +10,5 @@ export * from './Skeleton';
 export * from './ErrorMessage';
 export * from './ThemeButton';
 export * from './Label';
+export * from './AddCharacterButton';
+export * from './AddTagButton';
