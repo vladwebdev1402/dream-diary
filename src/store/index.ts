@@ -21,6 +21,11 @@ import {
   labelsSliceSelectors,
   labelsSlicetActions,
 } from './slices/LabelListSlice';
+import {
+  dreamSliceReducer,
+  dreamSliceSelectors,
+  dreamSlicetActions,
+} from './slices/DreamSlice';
 
 const store = configureStore({
   reducer: {
@@ -28,11 +33,13 @@ const store = configureStore({
     characterListReducer,
     characterSliceReducer,
     labelsSliceReducer,
+    dreamSliceReducer,
   },
 });
 
 const StoreActions = {
   dreamList: dreamListActions,
+  dream: dreamSlicetActions,
   characterList: characterListActions,
   character: characterSlicetActions,
   labelsList: labelsSlicetActions,
@@ -40,6 +47,7 @@ const StoreActions = {
 
 const StoreSelectors = {
   dreamList: dreamListSelectors,
+  dream: dreamSliceSelectors,
   characterList: characterListSelectors,
   character: characterSliceSelectors,
   labelsList: labelsSliceSelectors,

@@ -10,6 +10,7 @@ import {
   useAppSelector,
 } from '@/store';
 import { DreamFormData } from '@/types';
+import { Timestamp } from 'firebase/firestore';
 
 const DreamCreate = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const DreamCreate = () => {
       StoreActions.dreamList.createDream({
         ...dream,
         userUid: myUID,
-        date: new Date(),
+        date: Timestamp.fromDate(new Date()),
       }),
     );
 

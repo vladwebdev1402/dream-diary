@@ -1,0 +1,46 @@
+.dream {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.name {
+  text-align: center;
+}
+
+.cover {
+  width: 176px;
+  height: 176px;
+  margin: 16px auto 0 auto;
+  border-radius: 16px;
+
+  img {
+    max-width: 100%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.labels {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.characters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.buttons {
+  display: flex;
+  gap: 8px;
+}
+
+@media (max-width: 992px) {
+  .buttons {
+    flex-wrap: wrap;
+  }
+}

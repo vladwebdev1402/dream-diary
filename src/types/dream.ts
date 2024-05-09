@@ -6,7 +6,7 @@ type DreamFormData = {
   cover?: string;
   characters?: string[];
   labels?: string[];
-  date: Date;
+  date: Timestamp;
 };
 
 type DreamFormErros = {

@@ -11,6 +11,7 @@ import {
   CharacterCreatePage,
   CharacterPage,
   DreamCreate,
+  DreamPage,
   LabelsPage,
   Layout,
   MainPage,
@@ -28,6 +29,7 @@ const router = createBrowserRouter(
       <Route path={ROUTER_PATHS.characters} element={<CaharctersPage />} />
       <Route path={ROUTER_PATHS.labels} element={<LabelsPage />} />
       <Route path={ROUTER_PATHS.dreamCreate} element={<DreamCreate />} />
+      <Route path={ROUTER_PATHS.dream} element={<DreamPage />} />
     </Route>,
   ),
 );

@@ -20,6 +20,7 @@ import {
 } from '@/store';
 import { AddCharacterToDream } from '../AddCharacterToDream';
 import { AddLabelToDream } from '../AddLabelToDream';
+import { Timestamp } from 'firebase/firestore';
 
 const DreamForm: FC<FormProps<DreamFormData>> = ({
   formType,
@@ -30,7 +31,7 @@ const DreamForm: FC<FormProps<DreamFormData>> = ({
     cover: '',
     characters: [],
     labels: [],
-    date: new Date(),
+    date: Timestamp.fromDate(new Date()),
   },
   isLoading,
   onSuccessSubmit,

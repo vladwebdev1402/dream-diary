@@ -5,6 +5,7 @@ const ROUTER_PATHS = {
   character: '/characters/:id',
   characterCreate: '/create/character',
   dreams: '/dreams',
+  dream: '/dreams/:id',
   dreamCreate: '/create/dreams',
 };
 
