@@ -1,11 +1,12 @@
 import { FC } from 'react';
+import clsx from 'clsx';
 
 import { Character } from '@/types';
+import { Typography } from '@/components/atoms';
 import Stub from '@/assets/images/avatar-stub.png';
 
 import style from './style.module.scss';
-import { Typography } from '@/components/atoms';
-import clsx from 'clsx';
+import { CharacterAvatarSkeleton } from './CharacterAvatarSkeleton';
 
 type Props = {
   character: Character;
@@ -33,4 +34,4 @@ const CharacterAvatar: FC<Props> = ({
     </div>
   );
 };
-export { CharacterAvatar };
+export { CharacterAvatar, CharacterAvatarSkeleton };

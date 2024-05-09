@@ -1,24 +1,22 @@
 import { FC } from 'react';
+import { Link } from 'react-router-dom';
 
-import { Character, Dream } from '@/types';
-import CharacterJPG from '@/assets/images/ava1.jpg';
+import { Dream } from '@/types';
+import { getNavigateRoute } from '@/constants';
+import { CharacterAvatar, Label, Typography } from '@/components/atoms';
 
 import style from './style.module.scss';
-import { CharacterAvatar, Typography } from '@/components/atoms';
-import { Link } from 'react-router-dom';
-import { getNavigateRoute } from '@/constants';
-
-const character: Character = {
-  id: '132123',
-  avatarUrl: CharacterJPG,
-  name: 'Имя персонажа',
-};
+import { DreamCardSkeleton } from './DreamCardSkeleton';
+import { StoreSelectors, useAppSelector } from '@/store';
 
 type Props = {
   dream: Dream;
 };
 
 const DreamCard: FC<Props> = ({ dream }) => {
+  const characters = useAppSelector(StoreSelectors.characterList.selectData);
+  const labels = useAppSelector(StoreSelectors.labelsList.selectData);
+
   return (
     <div className={style.card}>
       <Link to={getNavigateRoute.goDream(dream.id)} className={style.link}>
@@ -29,13 +27,18 @@ const DreamCard: FC<Props> = ({ dream }) => {
 
       {dream.characters && (
         <div className={style.characters}>
-          {dream.characters.map((item) => (
-            <CharacterAvatar
-              key={item}
-              character={character}
-              withName={false}
-            />
-          ))}
+          {dream.characters.map((item) => {
+            const character = characters.find((subItem) => subItem.id === item);
+            if (character)
+              return (
+                <CharacterAvatar
+                  character={character}
+                  key={character.id}
+                  withName={false}
+                />
+              );
+            return null;
+          })}
         </div>
       )}
       <div className={style.body}>
@@ -48,8 +51,22 @@ const DreamCard: FC<Props> = ({ dream }) => {
           <Typography>{dream.description}</Typography>
         </div>
       </div>
+      {dream.labels && (
+        <div className={style.labels}>
+          {dream.labels.map((item) => {
+            const label = labels.find((subItem) => subItem.id === item);
+            if (label)
+              return (
+                <Label theme={label.theme} key={label.id}>
+                  {label.name}
+                </Label>
+              );
+            return null;
+          })}
+        </div>
+      )}
     </div>
   );
 };
 
-export { DreamCard };
+export { DreamCard, DreamCardSkeleton };

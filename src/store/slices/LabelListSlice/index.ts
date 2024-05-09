@@ -96,6 +96,7 @@ const labelsSlicetActions = {
 
 const labelsSliceSelectors = {
   selectData: (state: RootState) => state.labelsSliceReducer.data,
+  selectIsLoading: (state: RootState) => state.labelsSliceReducer.isLoading,
   selectError: (state: RootState) => state.labelsSliceReducer.error,
   selectAll: (state: RootState) => state.labelsSliceReducer,
   selectIsActionLoading: (state: RootState) =>
