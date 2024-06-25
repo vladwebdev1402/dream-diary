@@ -7,7 +7,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '@/store';
-import { myUID } from '@/constants';
+import { LocalStorageService } from '@/api';
 
 import style from './style.module.scss';
 import { CharacterCard } from '../CharacterCard';
@@ -20,7 +20,9 @@ const CharacterList = () => {
   );
 
   useEffect(() => {
-    dispatch(StoreActions.characterList.getAllCharacters(myUID));
+    dispatch(
+      StoreActions.characterList.getAllCharacters(LocalStorageService.getUID()),
+    );
   }, []);
 
   if (error !== '')
@@ -31,6 +33,16 @@ const CharacterList = () => {
     );
 
   if (isLoading) return <CharacterListSkeleton />;
+
+  if (data && data.length === 0)
+    return (
+      <div className={style.error}>
+        <ErrorMessage
+          title="Список персонажей пуст"
+          description={'Создайте нового персонажа'}
+        />
+      </div>
+    );
 
   if (data)
     return (

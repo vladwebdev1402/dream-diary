@@ -7,7 +7,7 @@ import {
   useAppSelector,
 } from '@/store';
 import { ErrorMessage, Typography } from '@/components/atoms';
-import { myUID } from '@/constants';
+import { LocalStorageService } from '@/api';
 
 import style from './style.module.scss';
 import { DreamCard } from '../DreamCard';
@@ -30,10 +30,17 @@ const DreamList = () => {
   const groupedDreams = useMemo(() => groupByTimestamp(data), [data]);
 
   useEffect(() => {
-    dispatch(StoreActions.dreamList.getAllDreams(myUID));
+    dispatch(StoreActions.dreamList.getAllDreams(LocalStorageService.getUID()));
     if (characters === null)
-      dispatch(StoreActions.characterList.getAllCharacters(myUID));
-    if (labels === null) dispatch(StoreActions.labelsList.getAllLabels(myUID));
+      dispatch(
+        StoreActions.characterList.getAllCharacters(
+          LocalStorageService.getUID(),
+        ),
+      );
+    if (labels === null)
+      dispatch(
+        StoreActions.labelsList.getAllLabels(LocalStorageService.getUID()),
+      );
   }, []);
 
   if (isLoading || isLabelsLoading || isCharactersLoading)

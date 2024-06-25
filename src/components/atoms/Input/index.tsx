@@ -1,4 +1,4 @@
-import { ComponentPropsWithRef, FC } from 'react';
+import { ComponentPropsWithRef, FC, forwardRef } from 'react';
 import clsx from 'clsx';
 
 import style from './style.module.scss';
@@ -9,19 +9,17 @@ type Props = {
   hint?: string;
   error?: string;
 };
-
-const Input: FC<Props & ComponentPropsWithRef<'input'>> = ({
-  label,
-  error = '',
-  hint = '',
-  ...props
-}) => {
+const Input = forwardRef<
+  HTMLInputElement,
+  Props & ComponentPropsWithRef<'input'>
+>(({ label, error = '', hint = '', ...props }, ref) => {
   return (
     <div>
       <Typography variant="paragraph_14">{label}</Typography>
       <input
         className={clsx(style.input, { [style.input_error]: !!error })}
         {...props}
+        ref={ref}
       />
 
       {(error || hint) && (
@@ -31,7 +29,7 @@ const Input: FC<Props & ComponentPropsWithRef<'input'>> = ({
       )}
     </div>
   );
-};
+});
 
 const Textarea: FC<Props & ComponentPropsWithRef<'textarea'>> = ({
   label,

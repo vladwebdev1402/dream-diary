@@ -1,8 +1,10 @@
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { deleteDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
+
 import { firebaseDb } from '@/api';
 import { DreamScheme } from '@/schemes';
 import { DreamFormData } from '@/types';
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { deleteDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
+
 
 const getDream = createAsyncThunk(
   'dreamSlice/get',

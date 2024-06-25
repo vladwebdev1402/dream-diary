@@ -7,6 +7,8 @@ const ROUTER_PATHS = {
   dreams: '/dreams',
   dream: '/dreams/:id',
   dreamCreate: '/create/dreams',
+  signIn: '/auth',
+  signUp: '/signup',
 };
 
 const getNavigateRoute = {

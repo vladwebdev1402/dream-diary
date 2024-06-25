@@ -10,7 +10,7 @@ import {
   useAppSelector,
 } from '@/store';
 import { LabelFormData } from '@/types';
-import { myUID } from '@/constants';
+import { LocalStorageService } from '@/api';
 
 const LabelsPage = () => {
   const dispatch = useAppDispatch();
@@ -25,7 +25,10 @@ const LabelsPage = () => {
 
   const onSuccessSubmit = async (data: LabelFormData) => {
     await dispatch(
-      StoreActions.labelsList.createLabel({ userUid: myUID, ...data }),
+      StoreActions.labelsList.createLabel({
+        userUid: LocalStorageService.getUID(),
+        ...data,
+      }),
     );
     setIsOpen(false);
   };

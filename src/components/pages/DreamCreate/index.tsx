@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom';
+import { Timestamp } from 'firebase/firestore';
 
 import { Container, PageTemplate } from '@/components/atoms';
 import { DreamForm } from '@/components/organisms';
-import { ROUTER_PATHS, myUID } from '@/constants';
+import { ROUTER_PATHS } from '@/constants';
 import {
   StoreActions,
   StoreSelectors,
@@ -10,7 +11,7 @@ import {
   useAppSelector,
 } from '@/store';
 import { DreamFormData } from '@/types';
-import { Timestamp } from 'firebase/firestore';
+import { LocalStorageService } from '@/api';
 
 const DreamCreate = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const DreamCreate = () => {
     await dispatch(
       StoreActions.dreamList.createDream({
         ...dream,
-        userUid: myUID,
+        userUid: LocalStorageService.getUID(),
         date: Timestamp.fromDate(new Date()),
       }),
     );

@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getDoc, doc, deleteDoc, updateDoc } from 'firebase/firestore';
+
 import { CharacterScheme } from '@/schemes';
 import { firebaseDb } from '@/api';
 import { CharacterFormData } from '@/types';

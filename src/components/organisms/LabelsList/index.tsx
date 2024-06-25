@@ -6,10 +6,10 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '@/store';
-import { myUID } from '@/constants';
 import { ErrorMessage, Modal } from '@/components/atoms';
 import { LabelCard } from '@/components/molecules';
 import { Label, LabelFormData } from '@/types';
+import { LocalStorageService } from '@/api';
 
 import style from './style.module.scss';
 import { LabelListSkeleton } from './LabelListSkeleton';
@@ -42,15 +42,17 @@ const LabelsList = () => {
       StoreActions.labelsList.editLabel({
         data: label,
         id: currentLabel!.id,
-        userUid: myUID,
+        userUid: LocalStorageService.getUID(),
       }),
     );
     onClose();
   };
 
   useEffect(() => {
-    dispatch(StoreActions.labelsList.getAllLabels(myUID));
-  }, [myUID]);
+    dispatch(
+      StoreActions.labelsList.getAllLabels(LocalStorageService.getUID()),
+    );
+  }, [LocalStorageService.getUID()]);
 
   if (isLoading) return <LabelListSkeleton />;
 

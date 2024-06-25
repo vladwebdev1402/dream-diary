@@ -12,7 +12,7 @@ import { useCheckedValues } from '@/hooks';
 import style from './style.module.scss';
 import { LabelCard, LabelForm } from '@/components/molecules';
 import { Label, LabelFormData } from '@/types';
-import { myUID } from '@/constants';
+import { LocalStorageService } from '@/api';
 
 type Props = {
   isOpen: boolean;
@@ -38,7 +38,10 @@ const AddLabelToDream: FC<Props> = ({
 
   const onSuccessSubmit = async (data: LabelFormData) => {
     await dispatch(
-      StoreActions.labelsList.createLabel({ userUid: myUID, ...data }),
+      StoreActions.labelsList.createLabel({
+        userUid: LocalStorageService.getUID(),
+        ...data,
+      }),
     );
     setWindowType('add');
   };

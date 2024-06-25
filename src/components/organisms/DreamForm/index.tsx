@@ -9,17 +9,17 @@ import {
   LabelListSkeleton,
   Textarea,
 } from '@/components/atoms';
-import { FormButtons, LabelCard } from '@/components/molecules';
-import { DreamFormData, DreamFormErros, FormProps } from '@/types';
-import { myUID } from '@/constants';
-
-import style from './style.module.scss';
 import {
   StoreActions,
   StoreSelectors,
   useAppDispatch,
   useAppSelector,
 } from '@/store';
+import { FormButtons, LabelCard } from '@/components/molecules';
+import { DreamFormData, DreamFormErros, FormProps } from '@/types';
+import { LocalStorageService } from '@/api';
+
+import style from './style.module.scss';
 import { AddCharacterToDream } from '../AddCharacterToDream';
 import { AddLabelToDream } from '../AddLabelToDream';
 import { Timestamp } from 'firebase/firestore';
@@ -79,9 +79,16 @@ const DreamForm: FC<FormProps<DreamFormData>> = ({
 
   useEffect(() => {
     if (characters === null)
-      dispatch(StoreActions.characterList.getAllCharacters(myUID));
-    if (labels === null) dispatch(StoreActions.labelsList.getAllLabels(myUID));
-  }, [characters, labels, myUID]);
+      dispatch(
+        StoreActions.characterList.getAllCharacters(
+          LocalStorageService.getUID(),
+        ),
+      );
+    if (labels === null)
+      dispatch(
+        StoreActions.labelsList.getAllLabels(LocalStorageService.getUID()),
+      );
+  }, [characters, labels, LocalStorageService.getUID()]);
 
   return (
     <>
