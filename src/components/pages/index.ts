@@ -6,4 +6,6 @@ export * from './Layout';
 export * from './LabelsPage';
 export * from './DreamCreate';
 export * from './DreamPage';
+export * from './SignInPage';
+export * from './SignUpPage';
 export * from './Router';

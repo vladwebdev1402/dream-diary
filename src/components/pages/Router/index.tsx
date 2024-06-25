@@ -15,6 +15,8 @@ import {
   LabelsPage,
   Layout,
   MainPage,
+  SignInPage,
+  SignUpPage,
 } from '@/components/pages';
 
 const router = createBrowserRouter(
@@ -30,6 +32,8 @@ const router = createBrowserRouter(
       <Route path={ROUTER_PATHS.labels} element={<LabelsPage />} />
       <Route path={ROUTER_PATHS.dreamCreate} element={<DreamCreate />} />
       <Route path={ROUTER_PATHS.dream} element={<DreamPage />} />
+      <Route path={ROUTER_PATHS.signIn} element={<SignInPage />} />
+      <Route path={ROUTER_PATHS.signUp} element={<SignUpPage />} />
     </Route>,
   ),
 );

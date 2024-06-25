@@ -1,5 +1,13 @@
 .container {
+  max-width: 992px;
+  padding: 0px 16px;
+  margin: 0 auto;
+
+  &_large {
     max-width: 992px;
-    padding: 0px 16px;
-    margin: 0 auto;
+  }
+
+  &_small {
+    max-width: 596px;
+  }
 }
