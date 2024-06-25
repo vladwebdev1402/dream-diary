@@ -25,7 +25,7 @@ const DreamCard: FC<Props> = ({ dream }) => {
         </Typography>
       </Link>
 
-      {dream.characters && (
+      {characters && dream.characters && (
         <div className={style.characters}>
           {dream.characters.map((item) => {
             const character = characters.find((subItem) => subItem.id === item);
@@ -51,7 +51,7 @@ const DreamCard: FC<Props> = ({ dream }) => {
           <Typography>{dream.description}</Typography>
         </div>
       </div>
-      {dream.labels && (
+      {labels && dream.labels && (
         <div className={style.labels}>
           {dream.labels.map((item) => {
             const label = labels.find((subItem) => subItem.id === item);

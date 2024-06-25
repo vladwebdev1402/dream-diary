@@ -24,7 +24,12 @@ const initialState: InitialState = {
 const AuthSlice = createSlice({
   name: 'AuthSlice',
   initialState,
-  reducers: {},
+  reducers: {
+    clear: (state) => {
+      state.actionIsLoading = false;
+      state.error = '';
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(signUpByEmail.pending, (state) => {
       state.actionIsLoading = true;
@@ -83,7 +88,12 @@ const AuthSlice = createSlice({
 });
 
 const authReducer = AuthSlice.reducer;
-const authActions = { ...AuthSlice.actions, signUpByEmail, signUpByGoogle, signInByEmail };
+const authActions = {
+  ...AuthSlice.actions,
+  signUpByEmail,
+  signUpByGoogle,
+  signInByEmail,
+};
 const authSelectors = {
   selectActionIsLoading: (state: RootState) =>
     state.authReducer.actionIsLoading,

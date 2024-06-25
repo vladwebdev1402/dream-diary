@@ -2,13 +2,14 @@ import { useNavigate } from 'react-router-dom';
 
 import { Container, PageTemplate } from '@/components/atoms';
 import { CharacterForm, CharacterFormData } from '@/components/molecules';
-import { ROUTER_PATHS, myUID } from '@/constants';
+import { ROUTER_PATHS } from '@/constants';
 import {
   StoreActions,
   StoreSelectors,
   useAppDispatch,
   useAppSelector,
 } from '@/store';
+import { LocalStorageService } from '@/api';
 
 const CharacterCreatePage = () => {
   const dispatch = useAppDispatch();
@@ -18,7 +19,10 @@ const CharacterCreatePage = () => {
   );
   const onSuccessSubmit = async (data: CharacterFormData) => {
     await dispatch(
-      StoreActions.characterList.createCharacter({ userUid: myUID, ...data }),
+      StoreActions.characterList.createCharacter({
+        userUid: LocalStorageService.getUID(),
+        ...data,
+      }),
     );
     navigate(-1);
   };

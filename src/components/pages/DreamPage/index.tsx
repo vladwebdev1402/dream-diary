@@ -14,13 +14,14 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '@/store';
-import { ROUTER_PATHS, myUID } from '@/constants';
-
-import style from './style.module.scss';
 import { LabelCard } from '@/components/molecules';
-import { DreamPageSkeleton } from './DreamPageSkeleton';
 import { DreamForm } from '@/components/organisms';
 import { DreamFormData } from '@/types';
+import { ROUTER_PATHS } from '@/constants';
+import { LocalStorageService } from '@/api';
+
+import style from './style.module.scss';
+import { DreamPageSkeleton } from './DreamPageSkeleton';
 
 const DreamPage = () => {
   const dispatch = useAppDispatch();
@@ -51,7 +52,11 @@ const DreamPage = () => {
   const onSuccessSubmit = async (dream: DreamFormData) => {
     if (data) {
       await dispatch(
-        StoreActions.dream.editDream({ ...dream, id: data.id, userUid: myUID }),
+        StoreActions.dream.editDream({
+          ...dream,
+          id: data.id,
+          userUid: LocalStorageService.getUID(),
+        }),
       );
       setStep('show');
     }
@@ -60,8 +65,15 @@ const DreamPage = () => {
   useEffect(() => {
     dispatch(StoreActions.dream.getDream(params.id || ''));
     if (characters === null)
-      dispatch(StoreActions.characterList.getAllCharacters(myUID));
-    if (labels === null) dispatch(StoreActions.labelsList.getAllLabels(myUID));
+      dispatch(
+        StoreActions.characterList.getAllCharacters(
+          LocalStorageService.getUID(),
+        ),
+      );
+    if (labels === null)
+      dispatch(
+        StoreActions.labelsList.getAllLabels(LocalStorageService.getUID()),
+      );
   }, [params]);
 
   if (error)

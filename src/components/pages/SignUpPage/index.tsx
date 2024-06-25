@@ -42,6 +42,10 @@ const SignUpPage = () => {
     if (isAuth) navigate(ROUTER_PATHS.main);
   }, [isAuth, navigate]);
 
+  useEffect(() => {
+    dispatch(StoreActions.auth.clear());
+  }, []);
+
   return (
     <Container variant="small">
       <div className={style.title}>

@@ -13,9 +13,9 @@ import {
   useAppSelector,
 } from '@/store';
 import { useCheckedValues } from '@/hooks';
+import { LocalStorageService } from '@/api';
 
 import style from './style.module.scss';
-import { myUID } from '@/constants';
 
 type Props = {
   isOpen: boolean;
@@ -45,7 +45,10 @@ const AddCharacterToDream: FC<Props> = ({
 
   const onSuccessSubmit = async (data: CharacterFormData) => {
     await dispatch(
-      StoreActions.characterList.createCharacter({ userUid: myUID, ...data }),
+      StoreActions.characterList.createCharacter({
+        userUid: LocalStorageService.getUID(),
+        ...data,
+      }),
     );
     setWindowType('add');
   };
