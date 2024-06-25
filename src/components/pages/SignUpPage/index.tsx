@@ -1,6 +1,15 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 
 import { Button, Container, Input, Typography } from '@/components/atoms';
+import {
+  StoreActions,
+  StoreSelectors,
+  useAppDispatch,
+  useAppSelector,
+} from '@/store';
+import { ROUTER_PATHS } from '@/constants';
+import GoogleSVG from '@/assets/decoration/google.svg?react';
 
 import style from './style.module.scss';
 
@@ -11,10 +20,19 @@ type SignUpForm = {
 };
 
 const SignUpPage = () => {
+  const dispatch = useAppDispatch();
+  const actionIsLoading = useAppSelector(
+    StoreSelectors.auth.selectActionIsLoading,
+  );
+  const error = useAppSelector(StoreSelectors.auth.selectError);
   const { register, handleSubmit, watch, formState } = useForm<SignUpForm>();
 
   const onSignUpSubmit: SubmitHandler<SignUpForm> = (data) => {
-    console.log(data);
+    dispatch(StoreActions.auth.signUpByEmail(data));
+  };
+
+  const onSignUpButtonClick = () => {
+    dispatch(StoreActions.auth.signUpByGoogle());
   };
 
   return (
@@ -33,6 +51,7 @@ const SignUpPage = () => {
           })}
           type="email"
           error={formState.errors.email?.message}
+          required
         />
         <Input
           label="Пароль"
@@ -53,6 +72,7 @@ const SignUpPage = () => {
           })}
           type="password"
           error={formState.errors.password?.message}
+          required
         />
         <Input
           label="Повторите пароль"
@@ -71,10 +91,31 @@ const SignUpPage = () => {
           })}
           type="password"
           error={formState.errors.repeatPassword?.message}
+          required
         />
-        <Button type="submit" fullwidth>
+        <Typography>
+          Если вы зарегистрированы, то можно{' '}
+          <Link to={ROUTER_PATHS.signIn}>
+            <span className={style.auth}>авторизоваться</span>
+          </Link>
+        </Typography>
+
+        <Button type="submit" fullwidth isLoading={actionIsLoading}>
           Зарегистрироваться
         </Button>
+        <Button
+          type="button"
+          variant="outlined"
+          fullwidth
+          isLoading={actionIsLoading}
+          Icon={<GoogleSVG />}
+          onClick={onSignUpButtonClick}
+        >
+          Войти при помощи Google
+        </Button>
+        <div className={style.error}>
+          <Typography>{error}</Typography>
+        </div>
       </form>
     </Container>
   );

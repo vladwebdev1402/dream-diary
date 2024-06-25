@@ -26,6 +26,11 @@ import {
   dreamSliceSelectors,
   dreamSlicetActions,
 } from './slices/DreamSlice';
+import {
+  authReducer,
+  authActions,
+  authSelectors,
+} from './slices/AuthSlice';
 
 const store = configureStore({
   reducer: {
@@ -34,6 +39,7 @@ const store = configureStore({
     characterSliceReducer,
     labelsSliceReducer,
     dreamSliceReducer,
+    authReducer,
   },
 });
 
@@ -43,6 +49,7 @@ const StoreActions = {
   characterList: characterListActions,
   character: characterSlicetActions,
   labelsList: labelsSlicetActions,
+  auth: authActions,
 };
 
 const StoreSelectors = {
@@ -51,6 +58,7 @@ const StoreSelectors = {
   characterList: characterListSelectors,
   character: characterSliceSelectors,
   labelsList: labelsSliceSelectors,
+  auth: authSelectors,
 };
 
 type RootState = ReturnType<typeof store.getState>;

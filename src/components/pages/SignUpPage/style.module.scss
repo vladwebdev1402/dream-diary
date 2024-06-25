@@ -1,10 +1,24 @@
+@import '@/style/variables.scss';
+
 .title {
-    text-align: center;
+  text-align: center;
 }
 
 .form {
-    margin-top: 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.error {
+  color: $error;
+}
+
+.auth {
+  color: $violet;
+  transition: $transition;
+  &:hover {
+    color: $violet-dark;
+  }
 }

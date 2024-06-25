@@ -1,11 +1,12 @@
 import clsx from 'clsx';
-import { ComponentPropsWithRef, FC } from 'react';
+import { ComponentPropsWithRef, FC, ReactNode } from 'react';
 
 import style from './style.module.scss';
 import { Typography } from '../Typography';
 import { Loader } from '../Loader';
 
 type Props = {
+  Icon?: ReactNode;
   variant?: 'contained' | 'text' | 'outlined';
   size?: 'small' | 'big';
   colorTheme?: 'delete';
@@ -14,6 +15,7 @@ type Props = {
 } & ComponentPropsWithRef<'button'>;
 
 const Button: FC<Props> = ({
+  Icon,
   variant = 'contained',
   size = 'big',
   colorTheme = '',
@@ -37,8 +39,11 @@ const Button: FC<Props> = ({
       {...props}
       disabled={isLoading || props.disabled}
     >
+      {Icon && <div>{Icon}</div>}
       {!isLoading && <Typography fontWeight="semibold">{children}</Typography>}
-      {isLoading && <Loader size={22} />}
+      {isLoading && (
+        <Loader size={22} theme={variant === 'contained' ? 'white' : 'black'} />
+      )}
     </button>
   );
 };
