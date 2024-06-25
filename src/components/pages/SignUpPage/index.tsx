@@ -1,5 +1,6 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 import { Button, Container, Input, Typography } from '@/components/atoms';
 import {
@@ -21,10 +22,12 @@ type SignUpForm = {
 
 const SignUpPage = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const actionIsLoading = useAppSelector(
     StoreSelectors.auth.selectActionIsLoading,
   );
   const error = useAppSelector(StoreSelectors.auth.selectError);
+  const isAuth = useAppSelector(StoreSelectors.auth.selectIsAuth);
   const { register, handleSubmit, watch, formState } = useForm<SignUpForm>();
 
   const onSignUpSubmit: SubmitHandler<SignUpForm> = (data) => {
@@ -34,6 +37,10 @@ const SignUpPage = () => {
   const onSignUpButtonClick = () => {
     dispatch(StoreActions.auth.signUpByGoogle());
   };
+
+  useEffect(() => {
+    if (isAuth) navigate(ROUTER_PATHS.main);
+  }, [isAuth, navigate]);
 
   return (
     <Container variant="small">

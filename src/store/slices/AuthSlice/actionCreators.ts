@@ -3,6 +3,7 @@ import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
+  signInWithEmailAndPassword,
 } from 'firebase/auth';
 
 import { SignUpData } from '@/types';
@@ -50,4 +51,25 @@ const signUpByGoogle = createAsyncThunk(
   },
 );
 
-export { signUpByEmail, signUpByGoogle };
+const signInByEmail = createAsyncThunk(
+  'auth/signInEmail',
+  async (data: SignUpData, thunkAPI) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        firebiseAuth,
+        data.email,
+        data.password,
+      );
+      return { ...userCredential.user };
+    } catch (error) {
+      if (typeof error === 'string') return thunkAPI.rejectWithValue(error);
+      if (error instanceof Error && 'code' in error)
+        return thunkAPI.rejectWithValue(
+          authErrors[error.code as string] || error.code,
+        );
+      return thunkAPI.rejectWithValue('Неизвестная ошибка в ActionCreator');
+    }
+  },
+);
+
+export { signUpByEmail, signUpByGoogle, signInByEmail };
