@@ -86,7 +86,7 @@ const editLabel = createAsyncThunk(
         userUid: label.userUid,
         ...label.data,
       });
-      return { id: label.id, ...label.data };
+      return { id: label.id, ...label.data, userUid: label.userUid };
     } catch (e) {
       if (e instanceof Error) return thunkAPI.rejectWithValue(e.message);
       else if (typeof e === 'string') return thunkAPI.rejectWithValue(e);

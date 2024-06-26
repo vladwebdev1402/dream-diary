@@ -43,11 +43,14 @@ const AddCharacterToDream: FC<Props> = ({
     onClose();
   };
 
-  const onSuccessSubmit = async (data: CharacterFormData) => {
+  const onSuccessSubmit = async (data: CharacterFormData, imageFile: File) => {
     await dispatch(
       StoreActions.characterList.createCharacter({
-        userUid: LocalStorageService.getUID(),
-        ...data,
+        character: {
+          userUid: LocalStorageService.getUID(),
+          ...data,
+        },
+        imageFile,
       }),
     );
     setWindowType('add');

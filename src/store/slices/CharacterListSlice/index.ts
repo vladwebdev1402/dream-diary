@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
-import { Character, CharacterFormData } from '@/types';
+import { Character } from '@/types';
 import { RootState } from '@/store';
 
 import { createCharacter, getAllCharacters } from './actionCreators';
@@ -21,10 +21,6 @@ const CharacterListSlice = createSlice({
   name: 'DreamListSlice',
   initialState,
   reducers: {
-    addNewCharacter: (state, action: PayloadAction<CharacterFormData>) => {
-      if (state.data)
-        state.data.push({ id: Math.random().toString(), ...action.payload });
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(getAllCharacters.pending, (state) => {
