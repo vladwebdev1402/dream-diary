@@ -1,10 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { deleteDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { deleteObject, ref, uploadBytes } from 'firebase/storage';
 
-import { firebaseDb } from '@/api';
+import { firebaseDb, firebaseStorage } from '@/api';
 import { DreamScheme } from '@/schemes';
-import { DreamFormData } from '@/types';
+import { getFirebaseImageLink, getNameFromFirebaseLink } from '@/helpers';
 
+import { EditDreamData } from './type';
 
 const getDream = createAsyncThunk(
   'dreamSlice/get',
@@ -32,11 +34,27 @@ const getDream = createAsyncThunk(
 
 const editDream = createAsyncThunk(
   'dreamSlice/edit',
-  async (data: DreamFormData & { id: string; userUid: string }, thunkAPI) => {
+  async ({ dream, image }: EditDreamData, thunkAPI) => {
     try {
-      const docRef = doc(firebaseDb, 'dreams', data.id);
-      await updateDoc(docRef, data);
-      return data;
+      // если указана новая обложка, удаляется старая обложка
+      if (dream.cover !== image.oldCover && image.oldCover !== '') {
+        await deleteObject(
+          ref(firebaseStorage, getNameFromFirebaseLink(image.oldCover)),
+        );
+      }
+
+      // если добавлен файл он загружается, устанавливается ссылка на новую обложку
+      if (image.imageFile) {
+        await uploadBytes(
+          ref(firebaseStorage, image.imageFile.name),
+          image.imageFile,
+        );
+        dream.cover = getFirebaseImageLink(image.imageFile.name);
+      }
+
+      const docRef = doc(firebaseDb, 'dreams', dream.id);
+      await updateDoc(docRef, dream);
+      return dream;
     } catch (e) {
       if (e instanceof Error) return thunkAPI.rejectWithValue(e.message);
       else if (typeof e === 'string') return thunkAPI.rejectWithValue(e);
