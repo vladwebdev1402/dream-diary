@@ -19,7 +19,7 @@ import {
 } from '@/store';
 import { FormButtons, LabelCard } from '@/components/molecules';
 import { DreamFormData, DreamFormErros, FormProps } from '@/types';
-import { LocalStorageService, uploadFirebaseImage } from '@/api';
+import { LocalStorageService } from '@/api';
 
 import style from './style.module.scss';
 import { AddCharacterToDream } from '../AddCharacterToDream';
@@ -45,14 +45,16 @@ const DreamForm: FC<FormProps<DreamFormData>> = ({
   const [isOpenCharacters, setIsOpenCharacters] = useState(false);
   const [isOpenLabels, setIsOpenLabels] = useState(false);
   const [formData, setFormData] = useState<DreamFormData>(defaultValue);
+  const [file, setFile] = useState<File | null>(null);
   const [formErrors, setFormErrors] = useState<DreamFormErros>(null);
 
   const onCoverClear = () => {
     setFormData({ ...formData, cover: '' });
+    setFile(null);
   };
 
   const onCoverChange = (file: File) => {
-    uploadFirebaseImage(file);
+    setFile(file);
     setFormData({ ...formData, cover: URL.createObjectURL(file) });
   };
 
@@ -84,7 +86,7 @@ const DreamForm: FC<FormProps<DreamFormData>> = ({
         description: 'Поле необходимо обязательно заполнить',
       };
     setFormErrors(errors);
-    if (errors === null) onSuccessSubmit && onSuccessSubmit(formData);
+    if (errors === null) onSuccessSubmit && onSuccessSubmit(formData, file);
   };
 
   useEffect(() => {

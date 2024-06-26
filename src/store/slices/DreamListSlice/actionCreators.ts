@@ -1,9 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { ref, uploadBytes } from 'firebase/storage';
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
 
-import { firebaseDb } from '@/api';
+import { firebaseDb, firebaseStorage } from '@/api';
 import { DreamScheme } from '@/schemes';
-import { DreamFormData } from '@/types';
+import { getFirebaseImageLink } from '@/helpers';
+
+import { DreamCreateData } from './type';
 
 const getAllDreams = createAsyncThunk(
   'dreamList/get',
@@ -32,9 +35,14 @@ const getAllDreams = createAsyncThunk(
 
 const createDream = createAsyncThunk(
   'dreamList/post',
-  async (dream: DreamFormData & { userUid: string }, thunkAPI) => {
+  async ({ dream, imageFile }: DreamCreateData, thunkAPI) => {
     try {
-      const data = await addDoc(collection(firebaseDb, 'dreams'), dream);
+      if (imageFile)
+        await uploadBytes(ref(firebaseStorage, imageFile.name), imageFile);
+      const data = await addDoc(collection(firebaseDb, 'dreams'), {
+        ...dream,
+        cover: imageFile ? getFirebaseImageLink(imageFile.name) : undefined,
+      });
       const parseResult = DreamScheme.safeParse({
         id: data.id,
         ...dream,

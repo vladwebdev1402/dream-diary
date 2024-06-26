@@ -24,12 +24,15 @@ const DreamCreate = () => {
     navigate(ROUTER_PATHS.main);
   };
 
-  const onSuccessSubmit = async (dream: DreamFormData) => {
+  const onSuccessSubmit = async (dream: DreamFormData, imageFile?: File) => {
     await dispatch(
       StoreActions.dreamList.createDream({
-        ...dream,
-        userUid: LocalStorageService.getUID(),
-        date: Timestamp.fromDate(new Date()),
+        dream: {
+          ...dream,
+          userUid: LocalStorageService.getUID(),
+          date: Timestamp.fromDate(new Date()),
+        },
+        imageFile,
       }),
     );
 
