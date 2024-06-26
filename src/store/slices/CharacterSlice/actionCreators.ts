@@ -59,6 +59,7 @@ const editCharacter = createAsyncThunk(
   'character/edit',
   async ({ character, image }: EditCharacterData, thunkAPI) => {
     try {
+      const time = new Date().getTime();
       // если указана новая обложка, удаляется старая обложка
       if (character.avatarUrl !== image.oldCover && image.oldCover !== '') {
         await deleteObject(
@@ -69,10 +70,13 @@ const editCharacter = createAsyncThunk(
       // если добавлен файл он загружается, устанавливается ссылка на новую обложку
       if (image.imageFile) {
         await uploadBytes(
-          ref(firebaseStorage, image.imageFile.name),
+          ref(
+            firebaseStorage,
+            `${time}${character.userUid}dream${image.imageFile.name}`,
+          ),
           image.imageFile,
         );
-        character.avatarUrl = getFirebaseImageLink(image.imageFile.name);
+        character.avatarUrl = getFirebaseImageLink(`${time}${character.userUid}dream${image.imageFile.name}`);
       }
 
       const docRef = doc(firebaseDb, 'characters', character.id);

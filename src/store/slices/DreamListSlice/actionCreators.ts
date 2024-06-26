@@ -34,19 +34,27 @@ const getAllDreams = createAsyncThunk(
 );
 
 const createDream = createAsyncThunk(
-  'dreamList/post',
+  'dreamList/create',
   async ({ dream, imageFile }: DreamCreateData, thunkAPI) => {
     try {
-      if (imageFile)
-        await uploadBytes(ref(firebaseStorage, imageFile.name), imageFile);
+      const time = new Date().getTime();
+      if (imageFile) {
+        await uploadBytes(
+          ref(firebaseStorage, `${time}${dream.userUid}dream${imageFile.name}`),
+          imageFile,
+        );
+      }
+
       const data = await addDoc(collection(firebaseDb, 'dreams'), {
         ...dream,
-        cover: imageFile ? getFirebaseImageLink(imageFile.name) : undefined,
+        cover: imageFile ? getFirebaseImageLink(`${time}${dream.userUid}dream${imageFile.name}`) : undefined,
       });
+
       const parseResult = DreamScheme.safeParse({
         id: data.id,
         ...dream,
       });
+
       if (!parseResult.success)
         return thunkAPI.rejectWithValue('Произошла ошибка при создании сна');
 

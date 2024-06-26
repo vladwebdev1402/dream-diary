@@ -4,9 +4,9 @@ import { ref, uploadBytes } from 'firebase/storage';
 
 import { CharacterScheme } from '@/schemes';
 import { firebaseDb, firebaseStorage } from '@/api';
+import { getFirebaseImageLink } from '@/helpers';
 
 import { CreateCharacterData } from './type';
-import { getFirebaseImageLink } from '@/helpers';
 
 const getAllCharacters = createAsyncThunk(
   'charactersList/get',
@@ -35,20 +35,34 @@ const getAllCharacters = createAsyncThunk(
 );
 
 const createCharacter = createAsyncThunk(
-  'charactersList/post',
+  'charactersList/create',
   async ({ character, imageFile }: CreateCharacterData, thunkAPI) => {
     try {
-      if (imageFile)
-        await uploadBytes(ref(firebaseStorage, imageFile.name), imageFile);
+      const time = new Date().getTime();
+      if (imageFile) {
+        await uploadBytes(
+          ref(
+            firebaseStorage,
+            `${time}${character.userUid}dream${imageFile.name}`,
+          ),
+          imageFile,
+        );
+      }
 
       const data = await addDoc(collection(firebaseDb, 'characters'), {
         ...character,
-        avatarUrl: imageFile ? getFirebaseImageLink(imageFile.name) : undefined,
+        avatarUrl: imageFile
+          ? getFirebaseImageLink(
+              `${time}${character.userUid}dream${imageFile.name}`,
+            )
+          : undefined,
       });
+
       const parseResult = CharacterScheme.safeParse({
         id: data.id,
         ...character,
       });
+
       if (!parseResult.success)
         return thunkAPI.rejectWithValue(
           'Произошла ошибка при создании персонажа',

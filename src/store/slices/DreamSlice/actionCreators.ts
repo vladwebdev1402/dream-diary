@@ -37,6 +37,7 @@ const editDream = createAsyncThunk(
   'dreamSlice/edit',
   async ({ dream, image }: EditDreamData, thunkAPI) => {
     try {
+      const time = new Date().getTime();
       // если указана новая обложка, удаляется старая обложка
       if (dream.cover !== image.oldCover && image.oldCover !== '') {
         await deleteObject(
@@ -47,10 +48,15 @@ const editDream = createAsyncThunk(
       // если добавлен файл он загружается, устанавливается ссылка на новую обложку
       if (image.imageFile) {
         await uploadBytes(
-          ref(firebaseStorage, image.imageFile.name),
+          ref(
+            firebaseStorage,
+            `${time}${dream.userUid}dream${image.imageFile.name}`,
+          ),
           image.imageFile,
         );
-        dream.cover = getFirebaseImageLink(image.imageFile.name);
+        dream.cover = getFirebaseImageLink(
+          `${time}${dream.userUid}dream${image.imageFile.name}`,
+        );
       }
 
       const docRef = doc(firebaseDb, 'dreams', dream.id);

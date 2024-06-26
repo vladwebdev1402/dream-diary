@@ -23,6 +23,7 @@ type Dream = {
   cover?: string;
   characters?: string[];
   labels?: string[];
+  userUid: string;
 };
 
 export type { Dream, DreamFormData, DreamFormErros };

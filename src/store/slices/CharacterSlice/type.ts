@@ -1,7 +1,7 @@
 import { CharacterFormData } from '@/types';
 
 type EditCharacterData = {
-  character: { id: string } & CharacterFormData;
+  character: { id: string; userUid: string } & CharacterFormData;
   image: {
     oldCover: string;
     imageFile?: File;

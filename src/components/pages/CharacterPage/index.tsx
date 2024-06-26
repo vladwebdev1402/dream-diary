@@ -39,15 +39,18 @@ const CharacterPage = () => {
     character: CharacterFormData,
     imageFile?: File,
   ) => {
-    await dispatch(
-      StoreActions.character.editCharacter({
-        character: { id: params.id || '', ...character },
-        image: {
-          oldCover: data?.avatarUrl || '',
-          imageFile,
-        },
-      }),
-    );
+    if (data) {
+      await dispatch(
+        StoreActions.character.editCharacter({
+          character: { ...data, ...character },
+          image: {
+            oldCover: data?.avatarUrl || '',
+            imageFile,
+          },
+        }),
+      );
+    }
+
     onStepClick();
   };
 
