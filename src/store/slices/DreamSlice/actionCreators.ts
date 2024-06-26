@@ -7,6 +7,7 @@ import { DreamScheme } from '@/schemes';
 import { getFirebaseImageLink, getNameFromFirebaseLink } from '@/helpers';
 
 import { EditDreamData } from './type';
+import { Dream } from '@/types';
 
 const getDream = createAsyncThunk(
   'dreamSlice/get',
@@ -65,11 +66,16 @@ const editDream = createAsyncThunk(
 
 const deleteDream = createAsyncThunk(
   'dreamSlice/delete',
-  async (id: string, thunkAPI) => {
+  async (dream: Dream, thunkAPI) => {
     try {
-      const docRef = doc(firebaseDb, 'dreams', id);
+      if (dream.cover) {
+        await deleteObject(
+          ref(firebaseStorage, getNameFromFirebaseLink(dream.cover)),
+        );
+      }
+      const docRef = doc(firebaseDb, 'dreams', dream.id);
       await deleteDoc(docRef);
-      return id;
+      return dream.id;
     } catch (e) {
       if (e instanceof Error) return thunkAPI.rejectWithValue(e.message);
       else if (typeof e === 'string') return thunkAPI.rejectWithValue(e);

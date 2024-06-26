@@ -29,10 +29,10 @@ const CharacterPage = () => {
   };
 
   const onDeleteClick = async () => {
-    try {
-      await dispatch(StoreActions.character.deleteCharacter(params.id || ''));
+    if (data) {
+      await dispatch(StoreActions.character.deleteCharacter(data));
       navigate(ROUTER_PATHS.characters);
-    } catch (e) {}
+    }
   };
 
   const onEditSubmit = async (

@@ -7,6 +7,7 @@ import { getFirebaseImageLink, getNameFromFirebaseLink } from '@/helpers';
 import { firebaseDb, firebaseStorage } from '@/api';
 
 import { EditCharacterData } from './type';
+import { Character } from '@/types';
 
 const getCharacter = createAsyncThunk(
   'character/get',
@@ -36,11 +37,16 @@ const getCharacter = createAsyncThunk(
 
 const deleteCharacter = createAsyncThunk(
   'character/delete',
-  async (id: string, thunkAPI) => {
+  async (character: Character, thunkAPI) => {
     try {
-      const docRef = doc(firebaseDb, 'characters', id);
+      if (character.avatarUrl) {
+        await deleteObject(
+          ref(firebaseStorage, getNameFromFirebaseLink(character.avatarUrl)),
+        );
+      }
+      const docRef = doc(firebaseDb, 'characters', character.id);
       await deleteDoc(docRef);
-      return id;
+      return character.id;
     } catch (e) {
       if (e instanceof Error) return thunkAPI.rejectWithValue(e.message);
       else if (typeof e === 'string') return thunkAPI.rejectWithValue(e);
@@ -68,6 +74,7 @@ const editCharacter = createAsyncThunk(
         );
         character.avatarUrl = getFirebaseImageLink(image.imageFile.name);
       }
+
       const docRef = doc(firebaseDb, 'characters', character.id);
       await updateDoc(docRef, character);
       return character;

@@ -44,7 +44,7 @@ const DreamPage = () => {
 
   const onDeleteClick = async () => {
     if (data) {
-      await dispatch(StoreActions.dream.deleteDream(data?.id));
+      await dispatch(StoreActions.dream.deleteDream(data));
       navigate(ROUTER_PATHS.main);
     }
   };
