@@ -12,3 +12,4 @@ export * from './ThemeButton';
 export * from './Label';
 export * from './AddCharacterButton';
 export * from './AddTagButton';
+export * from './ImageLoader';

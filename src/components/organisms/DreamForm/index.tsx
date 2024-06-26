@@ -1,10 +1,12 @@
 import { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
+import { Timestamp } from 'firebase/firestore';
 
 import {
   AddCharacterButton,
   AddTagButton,
   CharacterAvatar,
   CharacterAvatarListSkeleton,
+  ImageLoader,
   Input,
   LabelListSkeleton,
   Textarea,
@@ -17,12 +19,11 @@ import {
 } from '@/store';
 import { FormButtons, LabelCard } from '@/components/molecules';
 import { DreamFormData, DreamFormErros, FormProps } from '@/types';
-import { LocalStorageService } from '@/api';
+import { LocalStorageService, uploadFirebaseImage } from '@/api';
 
 import style from './style.module.scss';
 import { AddCharacterToDream } from '../AddCharacterToDream';
 import { AddLabelToDream } from '../AddLabelToDream';
-import { Timestamp } from 'firebase/firestore';
 
 const DreamForm: FC<FormProps<DreamFormData>> = ({
   formType,
@@ -45,6 +46,15 @@ const DreamForm: FC<FormProps<DreamFormData>> = ({
   const [isOpenLabels, setIsOpenLabels] = useState(false);
   const [formData, setFormData] = useState<DreamFormData>(defaultValue);
   const [formErrors, setFormErrors] = useState<DreamFormErros>(null);
+
+  const onCoverClear = () => {
+    setFormData({ ...formData, cover: '' });
+  };
+
+  const onCoverChange = (file: File) => {
+    uploadFirebaseImage(file);
+    setFormData({ ...formData, cover: URL.createObjectURL(file) });
+  };
 
   const onNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, name: e.target.value });
@@ -93,7 +103,13 @@ const DreamForm: FC<FormProps<DreamFormData>> = ({
   return (
     <>
       <form className={style.form} onSubmit={onSubmit}>
-        <div className={style.avatar} />
+        <div className={style.avatar}>
+          <ImageLoader
+            currentSrc={formData.cover}
+            onFileChange={onCoverChange}
+            onClear={onCoverClear}
+          />
+        </div>
         <div className={style.inputs}>
           <Input
             label="Название сна"
