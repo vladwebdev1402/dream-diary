@@ -35,13 +35,20 @@ const CharacterPage = () => {
     } catch (e) {}
   };
 
-  const onEditSubmit = async (data: CharacterFormData) => {
-    try {
-      await dispatch(
-        StoreActions.character.editCharacter({ id: params.id || '', ...data }),
-      );
-      onStepClick();
-    } catch (e) {}
+  const onEditSubmit = async (
+    character: CharacterFormData,
+    imageFile?: File,
+  ) => {
+    await dispatch(
+      StoreActions.character.editCharacter({
+        character: { id: params.id || '', ...character },
+        image: {
+          oldCover: data?.avatarUrl || '',
+          imageFile,
+        },
+      }),
+    );
+    onStepClick();
   };
 
   const params = useParams<{ id: string }>();

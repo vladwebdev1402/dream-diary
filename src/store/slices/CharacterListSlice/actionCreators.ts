@@ -1,9 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { collection, getDocs, query, where, addDoc } from 'firebase/firestore';
+import { ref, uploadBytes } from 'firebase/storage';
 
 import { CharacterScheme } from '@/schemes';
-import { firebaseDb } from '@/api';
-import { CharacterFormData } from '@/types';
+import { firebaseDb, firebaseStorage } from '@/api';
+
+import { CreateCharacterData } from './type';
+import { getFirebaseImageLink } from '@/helpers';
 
 const getAllCharacters = createAsyncThunk(
   'charactersList/get',
@@ -33,12 +36,15 @@ const getAllCharacters = createAsyncThunk(
 
 const createCharacter = createAsyncThunk(
   'charactersList/post',
-  async (character: { userUid: string } & CharacterFormData, thunkAPI) => {
+  async ({ character, imageFile }: CreateCharacterData, thunkAPI) => {
     try {
-      const data = await addDoc(
-        collection(firebaseDb, 'characters'),
-        character,
-      );
+      if (imageFile)
+        await uploadBytes(ref(firebaseStorage, imageFile.name), imageFile);
+
+      const data = await addDoc(collection(firebaseDb, 'characters'), {
+        ...character,
+        avatarUrl: imageFile ? getFirebaseImageLink(imageFile.name) : undefined,
+      });
       const parseResult = CharacterScheme.safeParse({
         id: data.id,
         ...character,

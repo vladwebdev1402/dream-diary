@@ -1,9 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getDoc, doc, deleteDoc, updateDoc } from 'firebase/firestore';
+import { deleteObject, ref, uploadBytes } from 'firebase/storage';
 
 import { CharacterScheme } from '@/schemes';
-import { firebaseDb } from '@/api';
-import { CharacterFormData } from '@/types';
+import { getFirebaseImageLink, getNameFromFirebaseLink } from '@/helpers';
+import { firebaseDb, firebaseStorage } from '@/api';
+
+import { EditCharacterData } from './type';
 
 const getCharacter = createAsyncThunk(
   'character/get',
@@ -48,14 +51,26 @@ const deleteCharacter = createAsyncThunk(
 
 const editCharacter = createAsyncThunk(
   'character/edit',
-  async (
-    data: { id: string } & CharacterFormData,
-    thunkAPI,
-  ) => {
+  async ({ character, image }: EditCharacterData, thunkAPI) => {
     try {
-      const docRef = doc(firebaseDb, 'characters', data.id);
-      await updateDoc(docRef, data);
-      return data;
+      // если указана новая обложка, удаляется старая обложка
+      if (character.avatarUrl !== image.oldCover && image.oldCover !== '') {
+        await deleteObject(
+          ref(firebaseStorage, getNameFromFirebaseLink(image.oldCover)),
+        );
+      }
+
+      // если добавлен файл он загружается, устанавливается ссылка на новую обложку
+      if (image.imageFile) {
+        await uploadBytes(
+          ref(firebaseStorage, image.imageFile.name),
+          image.imageFile,
+        );
+        character.avatarUrl = getFirebaseImageLink(image.imageFile.name);
+      }
+      const docRef = doc(firebaseDb, 'characters', character.id);
+      await updateDoc(docRef, character);
+      return character;
     } catch (e) {
       if (e instanceof Error) return thunkAPI.rejectWithValue(e.message);
       else if (typeof e === 'string') return thunkAPI.rejectWithValue(e);

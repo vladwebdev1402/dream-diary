@@ -1,6 +1,6 @@
 import { ChangeEvent, FC, FormEvent, useState } from 'react';
 
-import { Button, Input, Textarea } from '@/components/atoms';
+import { Button, ImageLoader, Input, Textarea } from '@/components/atoms';
 import { CharacterFormData, CharacterFormErrors, FormProps } from '@/types';
 
 import style from './style.module.scss';
@@ -14,6 +14,17 @@ const CharacterForm: FC<FormProps<CharacterFormData>> = ({
 }) => {
   const [formData, setFormData] = useState<CharacterFormData>(defaultValue);
   const [errors, setErrors] = useState<CharacterFormErrors>(null);
+  const [file, setFile] = useState<File | null>(null);
+
+  const onAvatarClear = () => {
+    setFormData({ ...formData, avatarUrl: '' });
+    setFile(null);
+  };
+
+  const onAvatarChange = (file: File) => {
+    setFile(file);
+    setFormData({ ...formData, avatarUrl: URL.createObjectURL(file) });
+  };
 
   const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,7 +36,7 @@ const CharacterForm: FC<FormProps<CharacterFormData>> = ({
       });
     else {
       setErrors(null);
-      onSuccessSubmit(formData);
+      onSuccessSubmit(formData, file);
     }
   };
 
@@ -39,7 +50,13 @@ const CharacterForm: FC<FormProps<CharacterFormData>> = ({
 
   return (
     <form className={style.form} onSubmit={onFormSubmit}>
-      <div className={style.avatar}>добавить аватар</div>
+      <div className={style.avatar}>
+        <ImageLoader
+          currentSrc={formData.avatarUrl}
+          onFileChange={onAvatarChange}
+          onClear={onAvatarClear}
+        />
+      </div>
       <div className={style.inputs}>
         <Input
           label="Имя персонажа"
