@@ -1,9 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { ref, uploadBytes } from 'firebase/storage';
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
 
-import { firebaseDb } from '@/api';
+import { firebaseDb, firebaseStorage } from '@/api';
 import { DreamScheme } from '@/schemes';
-import { DreamFormData } from '@/types';
+import { getFirebaseImageLink } from '@/helpers';
+
+import { DreamCreateData } from './type';
 
 const getAllDreams = createAsyncThunk(
   'dreamList/get',
@@ -31,14 +34,27 @@ const getAllDreams = createAsyncThunk(
 );
 
 const createDream = createAsyncThunk(
-  'dreamList/post',
-  async (dream: DreamFormData & { userUid: string }, thunkAPI) => {
+  'dreamList/create',
+  async ({ dream, imageFile }: DreamCreateData, thunkAPI) => {
     try {
-      const data = await addDoc(collection(firebaseDb, 'dreams'), dream);
+      const time = new Date().getTime();
+      if (imageFile) {
+        await uploadBytes(
+          ref(firebaseStorage, `${time}${dream.userUid}dream${imageFile.name}`),
+          imageFile,
+        );
+      }
+
+      const data = await addDoc(collection(firebaseDb, 'dreams'), {
+        ...dream,
+        cover: imageFile ? getFirebaseImageLink(`${time}${dream.userUid}dream${imageFile.name}`) : undefined,
+      });
+
       const parseResult = DreamScheme.safeParse({
         id: data.id,
         ...dream,
       });
+
       if (!parseResult.success)
         return thunkAPI.rejectWithValue('Произошла ошибка при создании сна');
 

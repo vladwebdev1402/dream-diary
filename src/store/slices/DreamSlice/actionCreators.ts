@@ -1,10 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { deleteDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { deleteObject, ref, uploadBytes } from 'firebase/storage';
 
-import { firebaseDb } from '@/api';
+import { firebaseDb, firebaseStorage } from '@/api';
 import { DreamScheme } from '@/schemes';
-import { DreamFormData } from '@/types';
+import { getFirebaseImageLink, getNameFromFirebaseLink } from '@/helpers';
 
+import { EditDreamData } from './type';
+import { Dream } from '@/types';
 
 const getDream = createAsyncThunk(
   'dreamSlice/get',
@@ -32,11 +35,33 @@ const getDream = createAsyncThunk(
 
 const editDream = createAsyncThunk(
   'dreamSlice/edit',
-  async (data: DreamFormData & { id: string; userUid: string }, thunkAPI) => {
+  async ({ dream, image }: EditDreamData, thunkAPI) => {
     try {
-      const docRef = doc(firebaseDb, 'dreams', data.id);
-      await updateDoc(docRef, data);
-      return data;
+      const time = new Date().getTime();
+      // если указана новая обложка, удаляется старая обложка
+      if (dream.cover !== image.oldCover && image.oldCover !== '') {
+        await deleteObject(
+          ref(firebaseStorage, getNameFromFirebaseLink(image.oldCover)),
+        );
+      }
+
+      // если добавлен файл он загружается, устанавливается ссылка на новую обложку
+      if (image.imageFile) {
+        await uploadBytes(
+          ref(
+            firebaseStorage,
+            `${time}${dream.userUid}dream${image.imageFile.name}`,
+          ),
+          image.imageFile,
+        );
+        dream.cover = getFirebaseImageLink(
+          `${time}${dream.userUid}dream${image.imageFile.name}`,
+        );
+      }
+
+      const docRef = doc(firebaseDb, 'dreams', dream.id);
+      await updateDoc(docRef, dream);
+      return dream;
     } catch (e) {
       if (e instanceof Error) return thunkAPI.rejectWithValue(e.message);
       else if (typeof e === 'string') return thunkAPI.rejectWithValue(e);
@@ -47,11 +72,16 @@ const editDream = createAsyncThunk(
 
 const deleteDream = createAsyncThunk(
   'dreamSlice/delete',
-  async (id: string, thunkAPI) => {
+  async (dream: Dream, thunkAPI) => {
     try {
-      const docRef = doc(firebaseDb, 'dreams', id);
+      if (dream.cover) {
+        await deleteObject(
+          ref(firebaseStorage, getNameFromFirebaseLink(dream.cover)),
+        );
+      }
+      const docRef = doc(firebaseDb, 'dreams', dream.id);
       await deleteDoc(docRef);
-      return id;
+      return dream.id;
     } catch (e) {
       if (e instanceof Error) return thunkAPI.rejectWithValue(e.message);
       else if (typeof e === 'string') return thunkAPI.rejectWithValue(e);

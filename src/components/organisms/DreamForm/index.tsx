@@ -1,10 +1,12 @@
 import { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
+import { Timestamp } from 'firebase/firestore';
 
 import {
   AddCharacterButton,
   AddTagButton,
   CharacterAvatar,
   CharacterAvatarListSkeleton,
+  ImageLoader,
   Input,
   LabelListSkeleton,
   Textarea,
@@ -22,7 +24,6 @@ import { LocalStorageService } from '@/api';
 import style from './style.module.scss';
 import { AddCharacterToDream } from '../AddCharacterToDream';
 import { AddLabelToDream } from '../AddLabelToDream';
-import { Timestamp } from 'firebase/firestore';
 
 const DreamForm: FC<FormProps<DreamFormData>> = ({
   formType,
@@ -44,7 +45,18 @@ const DreamForm: FC<FormProps<DreamFormData>> = ({
   const [isOpenCharacters, setIsOpenCharacters] = useState(false);
   const [isOpenLabels, setIsOpenLabels] = useState(false);
   const [formData, setFormData] = useState<DreamFormData>(defaultValue);
+  const [file, setFile] = useState<File | null>(null);
   const [formErrors, setFormErrors] = useState<DreamFormErros>(null);
+
+  const onCoverClear = () => {
+    setFormData({ ...formData, cover: '' });
+    setFile(null);
+  };
+
+  const onCoverChange = (file: File) => {
+    setFile(file);
+    setFormData({ ...formData, cover: URL.createObjectURL(file) });
+  };
 
   const onNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, name: e.target.value });
@@ -74,7 +86,7 @@ const DreamForm: FC<FormProps<DreamFormData>> = ({
         description: 'Поле необходимо обязательно заполнить',
       };
     setFormErrors(errors);
-    if (errors === null) onSuccessSubmit && onSuccessSubmit(formData);
+    if (errors === null) onSuccessSubmit && onSuccessSubmit(formData, file);
   };
 
   useEffect(() => {
@@ -93,7 +105,13 @@ const DreamForm: FC<FormProps<DreamFormData>> = ({
   return (
     <>
       <form className={style.form} onSubmit={onSubmit}>
-        <div className={style.avatar} />
+        <div className={style.avatar}>
+          <ImageLoader
+            currentSrc={formData.cover}
+            onFileChange={onCoverChange}
+            onClear={onCoverClear}
+          />
+        </div>
         <div className={style.inputs}>
           <Input
             label="Название сна"

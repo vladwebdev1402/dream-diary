@@ -29,19 +29,29 @@ const CharacterPage = () => {
   };
 
   const onDeleteClick = async () => {
-    try {
-      await dispatch(StoreActions.character.deleteCharacter(params.id || ''));
+    if (data) {
+      await dispatch(StoreActions.character.deleteCharacter(data));
       navigate(ROUTER_PATHS.characters);
-    } catch (e) {}
+    }
   };
 
-  const onEditSubmit = async (data: CharacterFormData) => {
-    try {
+  const onEditSubmit = async (
+    character: CharacterFormData,
+    imageFile?: File,
+  ) => {
+    if (data) {
       await dispatch(
-        StoreActions.character.editCharacter({ id: params.id || '', ...data }),
+        StoreActions.character.editCharacter({
+          character: { ...data, ...character },
+          image: {
+            oldCover: data?.avatarUrl || '',
+            imageFile,
+          },
+        }),
       );
-      onStepClick();
-    } catch (e) {}
+    }
+
+    onStepClick();
   };
 
   const params = useParams<{ id: string }>();

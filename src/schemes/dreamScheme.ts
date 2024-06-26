@@ -11,6 +11,7 @@ const DreamScheme = z.object({
   cover: z.string().optional(),
   characters: z.array(z.string()).optional(),
   labels: z.array(z.string()).optional(),
+  userUid: z.string(),
 });
 
 export { DreamScheme };

@@ -40,7 +40,9 @@ const Button: FC<Props> = ({
       disabled={isLoading || props.disabled}
     >
       {Icon && <div>{Icon}</div>}
-      {!isLoading && <Typography fontWeight="semibold">{children}</Typography>}
+      {!isLoading && children && (
+        <Typography fontWeight="semibold">{children}</Typography>
+      )}
       {isLoading && (
         <Loader size={22} theme={variant === 'contained' ? 'white' : 'black'} />
       )}

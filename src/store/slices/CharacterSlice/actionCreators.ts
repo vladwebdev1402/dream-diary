@@ -1,9 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getDoc, doc, deleteDoc, updateDoc } from 'firebase/firestore';
+import { deleteObject, ref, uploadBytes } from 'firebase/storage';
 
 import { CharacterScheme } from '@/schemes';
-import { firebaseDb } from '@/api';
-import { CharacterFormData } from '@/types';
+import { getFirebaseImageLink, getNameFromFirebaseLink } from '@/helpers';
+import { firebaseDb, firebaseStorage } from '@/api';
+
+import { EditCharacterData } from './type';
+import { Character } from '@/types';
 
 const getCharacter = createAsyncThunk(
   'character/get',
@@ -33,11 +37,16 @@ const getCharacter = createAsyncThunk(
 
 const deleteCharacter = createAsyncThunk(
   'character/delete',
-  async (id: string, thunkAPI) => {
+  async (character: Character, thunkAPI) => {
     try {
-      const docRef = doc(firebaseDb, 'characters', id);
+      if (character.avatarUrl) {
+        await deleteObject(
+          ref(firebaseStorage, getNameFromFirebaseLink(character.avatarUrl)),
+        );
+      }
+      const docRef = doc(firebaseDb, 'characters', character.id);
       await deleteDoc(docRef);
-      return id;
+      return character.id;
     } catch (e) {
       if (e instanceof Error) return thunkAPI.rejectWithValue(e.message);
       else if (typeof e === 'string') return thunkAPI.rejectWithValue(e);
@@ -48,14 +57,31 @@ const deleteCharacter = createAsyncThunk(
 
 const editCharacter = createAsyncThunk(
   'character/edit',
-  async (
-    data: { id: string } & CharacterFormData,
-    thunkAPI,
-  ) => {
+  async ({ character, image }: EditCharacterData, thunkAPI) => {
     try {
-      const docRef = doc(firebaseDb, 'characters', data.id);
-      await updateDoc(docRef, data);
-      return data;
+      const time = new Date().getTime();
+      // если указана новая обложка, удаляется старая обложка
+      if (character.avatarUrl !== image.oldCover && image.oldCover !== '') {
+        await deleteObject(
+          ref(firebaseStorage, getNameFromFirebaseLink(image.oldCover)),
+        );
+      }
+
+      // если добавлен файл он загружается, устанавливается ссылка на новую обложку
+      if (image.imageFile) {
+        await uploadBytes(
+          ref(
+            firebaseStorage,
+            `${time}${character.userUid}dream${image.imageFile.name}`,
+          ),
+          image.imageFile,
+        );
+        character.avatarUrl = getFirebaseImageLink(`${time}${character.userUid}dream${image.imageFile.name}`);
+      }
+
+      const docRef = doc(firebaseDb, 'characters', character.id);
+      await updateDoc(docRef, character);
+      return character;
     } catch (e) {
       if (e instanceof Error) return thunkAPI.rejectWithValue(e.message);
       else if (typeof e === 'string') return thunkAPI.rejectWithValue(e);

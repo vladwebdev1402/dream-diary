@@ -3,6 +3,7 @@ type Character = {
   name: string;
   description?: string;
   avatarUrl?: string;
+  userUid: string;
 };
 
 type CharacterFormData = Pick<Character, 'name' | 'description' | 'avatarUrl'>;

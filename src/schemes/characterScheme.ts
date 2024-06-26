@@ -5,6 +5,7 @@ const CharacterScheme = z.object({
   name: z.string(),
   description: z.string().optional(),
   avatarUrl: z.string().optional(),
+  userUid: z.string(),
 });
 
 export { CharacterScheme };

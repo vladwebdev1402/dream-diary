@@ -44,18 +44,24 @@ const DreamPage = () => {
 
   const onDeleteClick = async () => {
     if (data) {
-      await dispatch(StoreActions.dream.deleteDream(data?.id));
+      await dispatch(StoreActions.dream.deleteDream(data));
       navigate(ROUTER_PATHS.main);
     }
   };
 
-  const onSuccessSubmit = async (dream: DreamFormData) => {
+  const onSuccessSubmit = async (dream: DreamFormData, imageFile?: File) => {
     if (data) {
       await dispatch(
         StoreActions.dream.editDream({
-          ...dream,
-          id: data.id,
-          userUid: LocalStorageService.getUID(),
+          dream: {
+            ...dream,
+            id: data.id,
+            userUid: LocalStorageService.getUID(),
+          },
+          image: {
+            oldCover: data.cover || '',
+            imageFile,
+          },
         }),
       );
       setStep('show');

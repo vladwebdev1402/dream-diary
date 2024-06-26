@@ -1,9 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { collection, getDocs, query, where, addDoc } from 'firebase/firestore';
+import { ref, uploadBytes } from 'firebase/storage';
 
 import { CharacterScheme } from '@/schemes';
-import { firebaseDb } from '@/api';
-import { CharacterFormData } from '@/types';
+import { firebaseDb, firebaseStorage } from '@/api';
+import { getFirebaseImageLink } from '@/helpers';
+
+import { CreateCharacterData } from './type';
 
 const getAllCharacters = createAsyncThunk(
   'charactersList/get',
@@ -32,17 +35,34 @@ const getAllCharacters = createAsyncThunk(
 );
 
 const createCharacter = createAsyncThunk(
-  'charactersList/post',
-  async (character: { userUid: string } & CharacterFormData, thunkAPI) => {
+  'charactersList/create',
+  async ({ character, imageFile }: CreateCharacterData, thunkAPI) => {
     try {
-      const data = await addDoc(
-        collection(firebaseDb, 'characters'),
-        character,
-      );
+      const time = new Date().getTime();
+      if (imageFile) {
+        await uploadBytes(
+          ref(
+            firebaseStorage,
+            `${time}${character.userUid}dream${imageFile.name}`,
+          ),
+          imageFile,
+        );
+      }
+
+      const data = await addDoc(collection(firebaseDb, 'characters'), {
+        ...character,
+        avatarUrl: imageFile
+          ? getFirebaseImageLink(
+              `${time}${character.userUid}dream${imageFile.name}`,
+            )
+          : undefined,
+      });
+
       const parseResult = CharacterScheme.safeParse({
         id: data.id,
         ...character,
       });
+
       if (!parseResult.success)
         return thunkAPI.rejectWithValue(
           'Произошла ошибка при создании персонажа',
