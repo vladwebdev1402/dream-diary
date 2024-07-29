@@ -1,14 +1,16 @@
+const root = '/dream-diary';
+
 const ROUTER_PATHS = {
-  main: '/',
-  labels: '/labels',
-  characters: '/characters',
-  character: '/characters/:id',
-  characterCreate: '/create/character',
-  dreams: '/dreams',
-  dream: '/dreams/:id',
-  dreamCreate: '/create/dreams',
-  signIn: '/auth',
-  signUp: '/signup',
+  main: root,
+  labels: root + '/labels',
+  characters: root + '/characters',
+  character: root + '/characters/:id',
+  characterCreate: root + '/create/character',
+  dreams: root + '/dreams',
+  dream: root + '/dreams/:id',
+  dreamCreate: root + '/create/dreams',
+  signIn: root + '/auth',
+  signUp: root + '/signup',
 };
 
 const getNavigateRoute = {
