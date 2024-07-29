@@ -47,7 +47,7 @@ const createDream = createAsyncThunk(
 
       const data = await addDoc(collection(firebaseDb, 'dreams'), {
         ...dream,
-        cover: imageFile ? getFirebaseImageLink(`${time}${dream.userUid}dream${imageFile.name}`) : undefined,
+        cover: imageFile ? getFirebaseImageLink(`${time}${dream.userUid}dream${imageFile.name}`) : "",
       });
 
       const parseResult = DreamScheme.safeParse({
