@@ -33,7 +33,7 @@ const AuthSlice = createSlice({
       state.data = null;
       state.isAuth = false;
       LocalStorageService.removeUID();
-    }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(signUpByEmail.pending, (state) => {

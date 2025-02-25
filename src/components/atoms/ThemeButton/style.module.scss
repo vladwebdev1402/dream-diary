@@ -7,7 +7,7 @@
   border-radius: 10px;
   border: none;
   cursor: pointer;
-  overflow: hidden;  
+  overflow: hidden;
   transition: $transition;
 
   &::after {
@@ -27,7 +27,7 @@
 
   &_checked {
     &::after {
-        opacity: 1;
+      opacity: 1;
     }
   }
 
