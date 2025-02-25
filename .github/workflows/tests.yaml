@@ -1,0 +1,30 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install NVM
+        run: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+      - name: Install Node.js
+        env: 
+          NODE_VERSION: 22.13.1
+        run: nvm install $NODE_VERSION
+      - name: Install dependcies
+        run: npm ci 
+      - name: Run prettier
+        run: npm run prettier
+      - name: Run linter
+        run: npm run lint
+      - name: Run commitlint
+        run: npm run commitlint
+      
+
+  
