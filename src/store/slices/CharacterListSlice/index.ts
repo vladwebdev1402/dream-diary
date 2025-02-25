@@ -20,8 +20,7 @@ const initialState: InitialState = {
 const CharacterListSlice = createSlice({
   name: 'DreamListSlice',
   initialState,
-  reducers: {
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getAllCharacters.pending, (state) => {
       state.isLoading = true;

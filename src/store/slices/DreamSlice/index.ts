@@ -74,7 +74,8 @@ const dreamSlicetActions = {
 
 const dreamSliceSelectors = {
   selectAll: (state: RootState) => state.dreamSliceReducer,
-  selectIsActionLoading: (state: RootState) => state.dreamSliceReducer.isActionLoading,
+  selectIsActionLoading: (state: RootState) =>
+    state.dreamSliceReducer.isActionLoading,
 };
 
 export { dreamSlicetActions, dreamSliceReducer, dreamSliceSelectors };

@@ -1,22 +1,22 @@
 .form {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .themes {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .buttons {
-    display: flex;
-    gap: 8px;
+  display: flex;
+  gap: 8px;
 }
 
 @media (max-width: 568px) {
-    .buttons {
-        flex-wrap: wrap;
-    }
+  .buttons {
+    flex-wrap: wrap;
+  }
 }

@@ -26,11 +26,7 @@ import {
   dreamSliceSelectors,
   dreamSlicetActions,
 } from './slices/DreamSlice';
-import {
-  authReducer,
-  authActions,
-  authSelectors,
-} from './slices/AuthSlice';
+import { authReducer, authActions, authSelectors } from './slices/AuthSlice';
 
 const store = configureStore({
   reducer: {

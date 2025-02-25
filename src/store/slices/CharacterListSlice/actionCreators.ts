@@ -55,7 +55,7 @@ const createCharacter = createAsyncThunk(
           ? getFirebaseImageLink(
               `${time}${character.userUid}dream${imageFile.name}`,
             )
-          : "",
+          : '',
       });
 
       const parseResult = CharacterScheme.safeParse({

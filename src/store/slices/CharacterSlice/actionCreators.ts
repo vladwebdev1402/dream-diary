@@ -76,7 +76,9 @@ const editCharacter = createAsyncThunk(
           ),
           image.imageFile,
         );
-        character.avatarUrl = getFirebaseImageLink(`${time}${character.userUid}dream${image.imageFile.name}`);
+        character.avatarUrl = getFirebaseImageLink(
+          `${time}${character.userUid}dream${image.imageFile.name}`,
+        );
       }
 
       const docRef = doc(firebaseDb, 'characters', character.id);
