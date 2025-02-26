@@ -46,6 +46,11 @@ jobs:
           path: ~/.npm
           key: ${{ env.cache-name }}
           restore-keys: ${{ env.cache-name }}
+      - name: Create env file
+        run: |
+          touch .env
+          echo "VITE_FIREBASE_API_KEY=${{secrets.FIREBASE_API_KEY}}" >> .env
+          echo "VITE_FIREBASE_APP_ID=${{secrets.FIREBASE_APP_ID}}" > .env
       - name: Install dependcies
         run: npm ci --production
       - name: Build project
