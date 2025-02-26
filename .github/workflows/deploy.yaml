@@ -55,7 +55,7 @@ jobs:
           ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
       - name: Copy build
         run: |
-          rsync -avz --delete ./build/dist/ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/app/frontend
+          rsync -avz --delete dist ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/app/frontend
 
   # tests:
   #   runs-on: ubuntu-latest
