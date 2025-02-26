@@ -15,21 +15,18 @@ jobs:
       - uses: actions/checkout@v3
       - name: Cache dependcies
         uses: actions/cache@v4
-        env: 
-          cache-name: npm-${{ hashFiles('package-lock.json')}} 
+        env:
+          cache-name: npm-${{ hashFiles('package-lock.json')}}
         with:
           path: ~/.npm
           key: ${{ env.cache-name }}
           restore-keys: ${{ env.cache-name }}
 
       - name: Install dependcies
-        run: npm ci 
+        run: npm ci
       - name: Run prettier
         run: npm run prettier
       - name: Run linter
         run: npm run lint
       - name: Run commitlint
         run: npx run commitlint --from=HEAD~1 --to=HEAD --verbose
-      
-
-  
