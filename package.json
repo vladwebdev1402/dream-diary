@@ -12,6 +12,7 @@
     "lint-staged": "lint-staged",
     "lint": "eslint . --ext .ts,.tsx",
     "preview": "vite preview",
+    "preview:host": "vite preview --host",
     "prepare": "husky"
   },
   "dependencies": {
