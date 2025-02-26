@@ -25,8 +25,8 @@ jobs:
       - name: Create env file
         run: |
           touch .env
-          echo "VITE_FIREBASE_API_KEY=${{secrets.FIREBASE_API_KEY}}" >> .env
-          echo "VITE_FIREBASE_APP_ID=${{secrets.FIREBASE_APP_ID}}" > .env
+          echo "VITE_FIREBASE_API_KEY=${{secrets.FIREBASE_API_KEY}}" > .env
+          echo "VITE_FIREBASE_APP_ID=${{secrets.FIREBASE_APP_ID}}" >> .env
       - name: Install dependcies
         run: npm ci
       - name: Build project
