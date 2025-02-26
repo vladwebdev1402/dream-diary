@@ -44,9 +44,6 @@ jobs:
         with:
           name: build
           path: dist
-      - name: Check downloaded files
-        run: |
-          ls -R .
       - name: Set up SSH key
         run: |
           mkdir -p ~/.ssh
@@ -55,7 +52,7 @@ jobs:
           ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
       - name: Copy build
         run: |
-          rsync -avz --delete ./dist/ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/app/frontend
+          rsync -avz --delete dist ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/app/frontend
 
   # tests:
   #   runs-on: ubuntu-latest
