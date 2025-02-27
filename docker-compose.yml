@@ -3,7 +3,11 @@ version: '3'
 services:
   frontend:
     build: .
-    ports:
-      - 8000:80
     volumes:
       - ./dist:/usr/share/nginx/html/
+    networks:
+      - dream-diary-network
+
+networks:
+  dream-diary-network:
+    external: true
