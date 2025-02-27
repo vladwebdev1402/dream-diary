@@ -49,7 +49,7 @@ const SignUpPage = () => {
   return (
     <Container variant="small">
       <div className={style.title}>
-        <Typography variant="h2">Регистрация Check CD</Typography>
+        <Typography variant="h2">Регистрация</Typography>
       </div>
       <form className={style.form} onSubmit={handleSubmit(onSignUpSubmit)}>
         <Input
